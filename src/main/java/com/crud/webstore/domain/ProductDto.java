@@ -12,7 +12,6 @@ public class ProductDto {
     private long unitsInStock;
     private long unitsInOrder;
     private boolean discontinued;
-    private String condition;
 
     public ProductDto() {
     }
@@ -65,10 +64,6 @@ public class ProductDto {
         return discontinued;
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
     public void setProductId(Long productId) {
         this.productId = productId;
     }
@@ -105,7 +100,4 @@ public class ProductDto {
         this.discontinued = discontinued;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
 }

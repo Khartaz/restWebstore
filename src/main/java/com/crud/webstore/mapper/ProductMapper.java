@@ -21,7 +21,7 @@ public class ProductMapper {
         );
     }
 
-    public ProductDto mapToTaskDto(final Product product) {
+    public ProductDto mapToProductDto(final Product product) {
         return new ProductDto(
                 product.getProductId(),
                 product.getName(),

@@ -14,7 +14,6 @@ public class Product {
     private long unitsInStock;
     private long unitsInOrder;
     private boolean discontinued;
-    private String condition;
 
     public Product() {
     }
@@ -72,10 +71,6 @@ public class Product {
         return unitsInOrder;
     }
 
-    public String getCondition() {
-        return condition;
-    }
-
     public boolean isDiscontinued() {
         return discontinued;
     }
@@ -115,9 +110,4 @@ public class Product {
     public void setDiscontinued(boolean discontinued) {
         this.discontinued = discontinued;
     }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
 }
