@@ -36,28 +36,10 @@ public class ProductService {
         return repository.findByManufacturer(manufacturer);
     }
     /*
-    public List<Product> getAllProducts() {
-        return repository.getAllProducts();
-    }
-
-    public Product getProductById(String productId) {
-        return repository.getProductById(productId);
-    }
-
-    public List<Product> getProductsByCategory(String category) {
-        return repository.getProductsByCategory(category);
-    }
 
     public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
         return repository.getProductsByFilter(filterParams);
     }
 
-    public List<Product> getProductsByManufacturer(String manufacturer) {
-        return repository.getProductsByManufacturer(manufacturer);
-    }
-
-    public void addProduct(Product product) {
-        repository.addProduct(product);
-    }
     */
 }
