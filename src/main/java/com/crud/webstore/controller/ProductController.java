@@ -43,6 +43,11 @@ public class ProductController {
         service.saveProduct(productMapper.mapToProduct(productDto));
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "getProductsByName")
+    public List<ProductDto> getByName(@RequestParam String name) {
+        return productMapper.mapToProductDtoList(service.getByName(name));
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "getProductsByCategory")
     public List<ProductDto> getByCategory(@RequestParam String category) {
         return productMapper.mapToProductDtoList(service.getByCategory(category));

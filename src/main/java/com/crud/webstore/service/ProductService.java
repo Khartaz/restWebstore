@@ -28,6 +28,10 @@ public class ProductService {
         return repository.save(product);
     }
 
+    public List<Product> getByName(String name) {
+        return repository.findByName(name);
+    }
+
     public List<Product> getByCategory(String category) {
         return repository.findByCategory(category);
     }
@@ -39,6 +43,7 @@ public class ProductService {
     public List<Product> getByCriteria(String manufacturer, String category) {
         return repository.findByManufacturerAndCategory(manufacturer, category);
     }
+
     /*
 
     public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {

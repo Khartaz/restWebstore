@@ -18,6 +18,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Override
     Product save(Product product);
 
+    List<Product> findByName(String name);
+
     List<Product> findByCategory(String category);
 
     List<Product> findByManufacturer(String manufacturer);
