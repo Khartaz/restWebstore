@@ -35,6 +35,10 @@ public class ProductService {
     public List<Product> getByManufacturer(String manufacturer) {
         return repository.findByManufacturer(manufacturer);
     }
+
+    public List<Product> getByCriteria(String manufacturer, String category) {
+        return repository.findByManufacturerAndCategory(manufacturer, category);
+    }
     /*
 
     public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {

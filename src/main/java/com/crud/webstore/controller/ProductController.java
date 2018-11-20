@@ -52,4 +52,9 @@ public class ProductController {
     public List<ProductDto> getByManufacturer(@RequestParam String manufacturer) {
         return productMapper.mapToProductDtoList(service.getByManufacturer(manufacturer));
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "getByCriteria")
+    public List<ProductDto> getByCriteria(@RequestParam String manufacturer, @RequestParam String category) {
+        return productMapper.mapToProductDtoList(service.getByCriteria(manufacturer, category));
+    }
 }
