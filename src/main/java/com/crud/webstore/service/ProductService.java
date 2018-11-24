@@ -1,5 +1,6 @@
 package com.crud.webstore.service;
 
+import com.crud.webstore.dao.ProductDao;
 import com.crud.webstore.domain.Product;
 import com.crud.webstore.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import java.util.List;
 public class ProductService {
     @Autowired
     private ProductRepository repository;
+    @Autowired
+    private ProductDao productDao;
 
     public List<Product> getAllProducts() {
         return repository.findAll();
@@ -29,19 +32,19 @@ public class ProductService {
     }
 
     public List<Product> getByName(String name) {
-        return repository.findByName(name);
+        return productDao.findByName(name);
     }
 
     public List<Product> getByCategory(String category) {
-        return repository.findByCategory(category);
+        return productDao.findByCategory(category);
     }
 
     public List<Product> getByManufacturer(String manufacturer) {
-        return repository.findByManufacturer(manufacturer);
+        return productDao.findByManufacturer(manufacturer);
     }
 
     public List<Product> getByCriteria(String manufacturer, String category) {
-        return repository.findByManufacturerAndCategory(manufacturer, category);
+        return productDao.findByManufacturerAndCategory(manufacturer, category);
     }
 
     /*

@@ -1,7 +1,7 @@
 package com.crud.webstore.mapper;
 
 import com.crud.webstore.domain.Product;
-import com.crud.webstore.domain.ProductDto;
+import com.crud.webstore.domain.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

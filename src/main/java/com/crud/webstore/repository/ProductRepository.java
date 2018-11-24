@@ -18,14 +18,6 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Override
     Product save(Product product);
 
-    List<Product> findByName(String name);
-
-    List<Product> findByCategory(String category);
-
-    List<Product> findByManufacturer(String manufacturer);
-
-    List<Product> findByManufacturerAndCategory(String manufacturer, String category);
-
     /*
     Product getProductById(String productId);
     List<Product> getProductsByCategory(String category);
@@ -34,6 +26,5 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     void addProduct(Product product);
 
     JpaRepository<Product, Long>
-
     */
 }
