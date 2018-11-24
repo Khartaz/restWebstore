@@ -1,7 +1,7 @@
 package com.crud.webstore.domain.dto;
 
 public class UserDto {
-    private long id;
+    //private long id;
     private String userId;
     private String firstName;
     private String lastName;
@@ -12,21 +12,13 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(long id, String userId, String firstName,
-                   String lastName, String email) {
-        this.id = id;
+    public UserDto(String userId, String firstName,
+                   String lastName, String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.encryptedPassword = encryptedPassword;
     }
 
     public String getUserId() {

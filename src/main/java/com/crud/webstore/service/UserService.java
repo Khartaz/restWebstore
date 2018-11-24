@@ -1,35 +1,15 @@
 package com.crud.webstore.service;
 
 import com.crud.webstore.domain.User;
-import com.crud.webstore.repository.UserRepository;
-import com.crud.webstore.service.impl.UtilsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-@Service
-public class UserService {
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private UtilsImpl utils;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+public interface UserService extends UserDetailsService {
 
-    public User saveUser(final User user) {
-        return repository.save(user);
-    }
+    User saveUser(final User user);
 
-    public User findByEmail(final User user) {
-        if (repository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record already exist");
-        return user;
-    }
+    User findByEmail(final User user);
 
-    public String generateUserId() {
-        return utils.generateUserId(20);
-    }
+    String generateUserId();
 
-    public String passwordEncoder(User user) {
-        return bCryptPasswordEncoder.encode(user.getPassword());
-    }
+    String passwordEncoder(String password);
 }

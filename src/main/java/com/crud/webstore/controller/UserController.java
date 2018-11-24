@@ -2,12 +2,9 @@ package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.mapper.UserMapper;
-import com.crud.webstore.service.UserService;
+import com.crud.webstore.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -17,7 +14,7 @@ public class UserController {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UserService service;
+    private UserServiceImpl service;
 
     @RequestMapping(method = RequestMethod.GET)
     public String getUser() {
@@ -25,11 +22,14 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody UserDto userDto)  {
+    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto)  {
         userDto.setUserId(service.generateUserId());
         service.findByEmail(userMapper.mapToUser(userDto));
-        userDto.setEncryptedPassword(service.passwordEncoder(userMapper.mapToUser(userDto)));
+        String password = userDto.getPassword();
+        userDto.setEncryptedPassword(service.passwordEncoder(password));
         service.saveUser(userMapper.mapToUser(userDto));
+
+        return userDto;
     }
 
     @RequestMapping(method = RequestMethod.PUT)
