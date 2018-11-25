@@ -1,11 +1,11 @@
 package com.crud.webstore.repository;
 
-import com.crud.webstore.domain.User;
+import com.crud.webstore.domain.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+public interface UserRepository extends CrudRepository<UserEntity, Long> {
     @Override
-    User save(User user);
+    UserEntity save(UserEntity userEntity);
 
-    User findByEmail(String email);
+    UserEntity findByEmail(String email);
 }

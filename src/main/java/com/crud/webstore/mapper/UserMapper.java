@@ -1,13 +1,13 @@
 package com.crud.webstore.mapper;
 
-import com.crud.webstore.domain.User;
+import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.domain.dto.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper {
-    public User mapToUser(final UserDto userDto) {
-        return new User(
+    public UserEntity mapToUser(final UserDto userDto) {
+        return new UserEntity(
                 userDto.getUserId(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
@@ -16,13 +16,13 @@ public class UserMapper {
         );
     }
 
-    public UserDto mapToUserDto(final User user) {
+    public UserDto mapToUserDto(final UserEntity userEntity) {
         return new UserDto(
-                user.getUserId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getEncryptedPassword()
+                userEntity.getUserId(),
+                userEntity.getFirstName(),
+                userEntity.getLastName(),
+                userEntity.getEmail(),
+                userEntity.getEncryptedPassword()
         );
     }
 }

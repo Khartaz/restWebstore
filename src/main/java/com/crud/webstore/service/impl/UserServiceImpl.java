@@ -1,13 +1,17 @@
 package com.crud.webstore.service.impl;
 
-import com.crud.webstore.domain.User;
+import com.crud.webstore.domain.UserEntity;
+import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,25 +22,39 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User saveUser(final User user) {
-        return repository.save(user);
+    public UserEntity saveUser(final UserEntity userEntity) {
+        return repository.save(userEntity);
     }
 
-    public User findByEmail(final User user) {
-        if (repository.findByEmail(user.getEmail()) != null) throw new RuntimeException("Record already exist");
-        return user;
+    public UserEntity findByEmail(final UserEntity userEntity) {
+        if (repository.findByEmail(userEntity.getEmail()) != null) throw new RuntimeException("Record already exist");
+        return userEntity;
     }
 
     public String generateUserId() {
         return utils.generateUserId(20);
     }
 
-    public String passwordEncoder(String password) {
+    public String passwordEncoder(final String password) {
         return bCryptPasswordEncoder.encode(password);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = repository.findByEmail(email);
+
+        if (userEntity == null) throw new UsernameNotFoundException(email);
+
+        return new org.springframework.security.core.userdetails.User
+                (userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+    }
+
+    @Override
+    public UserDto getUser(final String email) {
+        UserEntity userEntity = repository.findByEmail(email);
+        UserDto returnValue = new UserDto();
+        BeanUtils.copyProperties(userEntity, returnValue);
+
+        return returnValue;
     }
 }

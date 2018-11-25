@@ -1,15 +1,18 @@
 package com.crud.webstore.service;
 
-import com.crud.webstore.domain.User;
+import com.crud.webstore.domain.UserEntity;
+import com.crud.webstore.domain.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
 
-    User saveUser(final User user);
+    UserEntity saveUser(final UserEntity userEntity);
 
-    User findByEmail(final User user);
+    UserEntity findByEmail(final UserEntity userEntity);
 
     String generateUserId();
 
     String passwordEncoder(String password);
+
+    UserDto getUser(String userName);
 }

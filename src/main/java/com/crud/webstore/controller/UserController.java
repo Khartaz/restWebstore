@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = APPLICATION_JSON_VALUE)
-    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto)  {
+    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) {
         userDto.setUserId(service.generateUserId());
         service.findByEmail(userMapper.mapToUser(userDto));
         String password = userDto.getPassword();

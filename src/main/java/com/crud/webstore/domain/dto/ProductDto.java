@@ -17,8 +17,8 @@ public class ProductDto {
     }
 
     public ProductDto(Long productId, String name,
-                   BigDecimal unitPrice, String description,
-                   String manufacturer, String category, long unitsInStock) {
+                      BigDecimal unitPrice, String description,
+                      String manufacturer, String category, long unitsInStock) {
         this.productId = productId;
         this.name = name;
         this.unitPrice = unitPrice;

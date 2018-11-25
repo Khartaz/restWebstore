@@ -1,9 +1,6 @@
 package com.crud.webstore.service;
 
 import com.crud.webstore.domain.Product;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 public interface ProductService {

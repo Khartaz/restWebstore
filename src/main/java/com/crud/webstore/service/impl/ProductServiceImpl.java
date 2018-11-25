@@ -5,7 +5,6 @@ import com.crud.webstore.domain.Product;
 import com.crud.webstore.repository.ProductRepository;
 import com.crud.webstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

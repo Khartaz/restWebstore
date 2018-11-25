@@ -4,7 +4,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class UserEntity {
+
     @Id
     @GeneratedValue
     private long id;
@@ -27,14 +28,19 @@ public class User {
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
-    public User() {
+    public UserEntity() {
     }
 
-    public User(String userId, String firstName, String lastName,
-                String email, String encryptedPassword) {
+    public UserEntity(String userId, String firstName, String lastName,
+                      String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
+        this.encryptedPassword = encryptedPassword;
+    }
+
+    public UserEntity(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
