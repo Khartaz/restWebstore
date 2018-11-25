@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserEntity saveUser(final UserEntity userEntity) {
+    public UserEntity save(final UserEntity userEntity) {
         return repository.save(userEntity);
     }
 
