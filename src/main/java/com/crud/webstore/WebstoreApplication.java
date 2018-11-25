@@ -1,5 +1,6 @@
 package com.crud.webstore;
 
+import com.crud.webstore.security.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -20,5 +21,10 @@ public class WebstoreApplication {
     @Bean
     public SpringApplicationContext springApplicationContext() {
         return new SpringApplicationContext();
+    }
+
+    @Bean
+    public AppProperties appProperties() {
+        return new AppProperties();
     }
 }
