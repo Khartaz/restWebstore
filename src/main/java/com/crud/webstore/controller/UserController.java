@@ -1,6 +1,7 @@
 package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.domain.respone.UserResponse;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
@@ -17,18 +18,20 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @RequestMapping(method = RequestMethod.GET, value = "id")
-    public UserDto getUser(@RequestParam String id) throws UserNotFoundException {
-        return userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new));
+    @GetMapping(value = "id")
+    public UserResponse getUser(@RequestParam String id) throws UserNotFoundException {
+        return userMapper.mapToUserResponse(
+                 userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new))
+         );
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createUser", consumes = APPLICATION_JSON_VALUE)
     public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) {
         userDto.setUserId(service.generateUserId());
-        service.findByEmail(userMapper.mapToUser(userDto));
+        service.findByEmail(userMapper.mapToUserEntity(userDto));
         String password = userDto.getPassword();
         userDto.setEncryptedPassword(service.passwordEncoder(password));
-        service.save(userMapper.mapToUser(userDto));
+        service.save(userMapper.mapToUserEntity(userDto));
 
         return userDto;
     }
