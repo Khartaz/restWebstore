@@ -6,9 +6,8 @@ import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequestMapping(value = "/v1/users")
@@ -18,14 +17,17 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "id")
+    @GetMapping(value = "id", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public UserResponse getUser(@RequestParam String id) throws UserNotFoundException {
         return userMapper.mapToUserResponse(
                  userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new))
          );
     }
 
-    @PostMapping(value = "createUser", consumes = APPLICATION_JSON_VALUE)
+    @PostMapping(value = "createUser",
+            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE} ,
+            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+            )
     public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) {
         userDto.setUserId(service.generateUserId());
         service.findByEmail(userMapper.mapToUserEntity(userDto));
