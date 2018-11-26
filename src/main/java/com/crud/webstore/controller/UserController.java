@@ -1,8 +1,10 @@
 package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.domain.respone.UserResponse;
 import com.crud.webstore.exception.UserNotFoundException;
+import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @GetMapping(value = "id", produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserResponse getUser(@RequestParam String id) throws UserNotFoundException {
         return userMapper.mapToUserResponse(
                  userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new))
@@ -25,10 +27,11 @@ public class UserController {
     }
 
     @PostMapping(value = "createUser",
-            consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE} ,
-            produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+            consumes = MediaType.APPLICATION_JSON_VALUE ,
+            produces = MediaType.APPLICATION_JSON_VALUE
             )
-    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) {
+    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) throws Exception {
+        if (userDto.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
         userDto.setUserId(service.generateUserId());
         service.findByEmail(userMapper.mapToUserEntity(userDto));
         String password = userDto.getPassword();

@@ -1,6 +1,6 @@
 package com.crud.webstore.domain.respone;
 
-public class UserResponse {
+public class UserResponse<O> {
     private String userId;
     private String firstName;
     private String lastName;
@@ -14,6 +14,10 @@ public class UserResponse {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public UserResponse(Object message, Object httpHeaders, Object internalServerError) {
+
     }
 
     public String getUserId() {
