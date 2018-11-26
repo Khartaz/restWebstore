@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
-@Service
-public class UserServiceImpl implements UserService {
+//@Service
+public class UserServiceImpl extends UserService {
+    /*
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -57,4 +58,5 @@ public class UserServiceImpl implements UserService {
 
         return returnValue;
     }
+    */
 }

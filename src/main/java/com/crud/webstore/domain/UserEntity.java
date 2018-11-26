@@ -2,8 +2,7 @@ package com.crud.webstore.domain;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "USERS")
+@Entity(name = "USERS")
 public class UserEntity {
 
     @Id
@@ -22,7 +21,6 @@ public class UserEntity {
     @Column(name = "EMAIL")
     private String email;
 
-    //@Column(name = "PASSWORD")
     private String password;
 
     @Column(name = "ENCRYPTED_PASSWORD")
@@ -36,11 +34,6 @@ public class UserEntity {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
-        this.encryptedPassword = encryptedPassword;
-    }
-
-    public UserEntity(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
@@ -85,19 +78,15 @@ public class UserEntity {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEncryptedPassword() {
         return encryptedPassword;
     }
 
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
