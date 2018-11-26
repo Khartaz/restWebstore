@@ -1,4 +1,4 @@
-package com.crud.webstore.domain;
+package com.crud.webstore.domain.request;
 
 public class UserLoginRequest {
     private String email;

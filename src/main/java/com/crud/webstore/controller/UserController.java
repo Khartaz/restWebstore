@@ -1,6 +1,7 @@
 package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,9 @@ public class UserController {
     @Autowired
     private UserService service;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getById")
-    public UserDto getUser(@RequestParam String id) {
-        // return userMapper.mapToUserDto(service.getUserById(id));
-        return null;
+    @RequestMapping(method = RequestMethod.GET, value = "id")
+    public UserDto getUser(@RequestParam String id) throws UserNotFoundException {
+        return userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new));
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "createUser", consumes = APPLICATION_JSON_VALUE)

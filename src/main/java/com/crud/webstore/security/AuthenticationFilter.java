@@ -1,7 +1,7 @@
 package com.crud.webstore.security;
 
 import com.crud.webstore.SpringApplicationContext;
-import com.crud.webstore.domain.UserLoginRequest;
+import com.crud.webstore.domain.request.UserLoginRequest;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,6 +60,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstans.getTokenSecret())
                 .compact();
 
+        // To explain at call
         UserService userService = (UserService)SpringApplicationContext.getBean("userService");
         UserDto userDto = userService.getUser(userName);
 

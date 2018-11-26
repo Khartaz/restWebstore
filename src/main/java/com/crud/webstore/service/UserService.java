@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
-    
-
     @Autowired
     private UserRepository repository;
     @Autowired
@@ -60,6 +59,10 @@ public class UserService implements UserDetailsService {
         BeanUtils.copyProperties(userEntity, returnValue);
 
         return returnValue;
+    }
+
+    public Optional<UserEntity> getUserByUserId(String id) {
+        return repository.getUserEntityByUserId(id);
     }
 
 }
