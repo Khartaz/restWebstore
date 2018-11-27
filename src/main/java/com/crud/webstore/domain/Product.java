@@ -3,8 +3,7 @@ package com.crud.webstore.domain;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "PRODUCTS")
+@Entity(name = "PRODUCTS")
 public class Product {
     private Long productId;
     private String name;

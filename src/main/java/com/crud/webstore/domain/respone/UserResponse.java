@@ -1,6 +1,6 @@
 package com.crud.webstore.domain.respone;
 
-public class UserResponse<O> {
+public class UserResponse<T> {
     private String userId;
     private String firstName;
     private String lastName;

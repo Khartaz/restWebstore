@@ -21,9 +21,4 @@ public interface ProductService {
 
     List<Product> getByCriteria(String manufacturer, String category);
 
-    /*
-    public Set<Product> getProductsByFilter(Map<String, List<String>> filterParams) {
-        return repository.getProductsByFilter(filterParams);
-    }
-    */
 }
