@@ -30,16 +30,10 @@ public class UserController {
             consumes = MediaType.APPLICATION_JSON_VALUE ,
             produces = MediaType.APPLICATION_JSON_VALUE
             )
-    public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) throws Exception {
+    public @ResponseBody UserResponse createUser(@RequestBody UserDto userDto) {
         if (userDto.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-        userDto.setUserId(service.generateUserId());
-        service.findByEmail(userMapper.mapToUserEntity(userDto));
-        String password = userDto.getPassword();
-        userDto.setEncryptedPassword(service.passwordEncoder(password));
-        service.save(userMapper.mapToUserEntity(userDto));
-
-        return userDto;
+        return userMapper.mapToUserResponse(userMapper.mapToUserDto(service.save(userDto)));
     }
 
     @PutMapping(value = "updateUserDetails",
@@ -50,7 +44,7 @@ public class UserController {
         return userMapper.mapToUserResponse(service.updateUserDetails(id, userDto));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     public String deleteUser() {
         return "delete user was called";
     }

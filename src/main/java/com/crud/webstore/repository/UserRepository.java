@@ -1,7 +1,6 @@
 package com.crud.webstore.repository;
 
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.UserDto;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +11,7 @@ import java.util.Optional;
 @Transactional
 public interface UserRepository extends CrudRepository<UserEntity, Long> {
     @Override
-    UserEntity save(UserEntity userEntity);
+    UserEntity save(final UserEntity userEntity);
 
     UserEntity findByEmail(String email);
 

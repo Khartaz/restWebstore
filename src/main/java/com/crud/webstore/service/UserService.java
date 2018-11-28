@@ -33,8 +33,14 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    public UserEntity save(final UserEntity userEntity) {
-        return repository.save(userEntity);
+    public UserEntity save(final UserDto userDto) {
+
+        findByEmail(userMapper.mapToUserEntity(userDto));
+
+        userDto.setUserId(generateUserId());
+        userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
+
+        return repository.save(userMapper.mapToUserEntity(userDto));
     }
 
     public UserEntity findByEmail(final UserEntity userEntity) {
