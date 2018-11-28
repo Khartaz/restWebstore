@@ -31,7 +31,8 @@ public class UserController {
             produces = MediaType.APPLICATION_JSON_VALUE
             )
     public @ResponseBody UserDto createUser(@RequestBody UserDto userDto) throws Exception {
-        if (userDto.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+        if (userDto.getFirstName().isEmpty())
+            throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
         userDto.setUserId(service.generateUserId());
         service.findByEmail(userMapper.mapToUserEntity(userDto));
         String password = userDto.getPassword();
@@ -41,9 +42,12 @@ public class UserController {
         return userDto;
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
-    public String updateUser() {
-        return "update user was called";
+    @PutMapping(value = "updateUserDetails",
+            consumes = MediaType.APPLICATION_JSON_VALUE ,
+            produces = MediaType.APPLICATION_JSON_VALUE
+            )
+    public UserResponse updateUser(@RequestBody UserDto userDto, @RequestParam String id) throws Exception {
+        return userMapper.mapToUserResponse(service.updateUserDetails(id, userDto));
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

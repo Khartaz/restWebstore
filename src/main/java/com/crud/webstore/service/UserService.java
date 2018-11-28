@@ -2,6 +2,11 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.domain.respone.ErrorMessage;
+import com.crud.webstore.domain.respone.ErrorMessages;
+import com.crud.webstore.exception.UserNotFoundException;
+import com.crud.webstore.exception.UserServiceException;
+import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +30,8 @@ public class UserService implements UserDetailsService {
     private UtilsImpl utils;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private UserMapper userMapper;
 
     public UserEntity save(final UserEntity userEntity) {
         return repository.save(userEntity);
@@ -65,4 +72,18 @@ public class UserService implements UserDetailsService {
         return repository.getUserEntityByUserId(id);
     }
 
+    public UserDto updateUserDetails(String id, UserDto userDto) throws Exception {
+        UserEntity userEntity = repository.findByUserId(id);
+
+        if (userEntity == null) {
+            throw new UserNotFoundException();
+        }
+
+        userEntity.setFirstName(userDto.getFirstName());
+        userEntity.setLastName(userDto.getLastName());
+
+        UserEntity updatedUserDetails = repository.save(userEntity);
+
+       return userMapper.mapToUserDto(updatedUserDetails);
+    }
 }
