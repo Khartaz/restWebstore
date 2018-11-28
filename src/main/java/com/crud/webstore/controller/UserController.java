@@ -1,7 +1,10 @@
 package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.domain.request.RequestOperationNames;
 import com.crud.webstore.domain.respone.ErrorMessages;
+import com.crud.webstore.domain.respone.OperationStatus;
+import com.crud.webstore.domain.respone.RequestOperationStatus;
 import com.crud.webstore.domain.respone.UserResponse;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
@@ -20,10 +23,9 @@ public class UserController {
     private UserService service;
 
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserResponse getUser(@RequestParam String id) throws UserNotFoundException {
+    public UserResponse getUser(@RequestParam String id) {
         return userMapper.mapToUserResponse(
-                 userMapper.mapToUserDto(service.getUserByUserId(id).orElseThrow(UserNotFoundException::new))
-         );
+                 userMapper.mapToUserDto(service.getUserByUserId(id)));
     }
 
     @PostMapping(value = "createUser",
@@ -44,9 +46,14 @@ public class UserController {
         return userMapper.mapToUserResponse(service.updateUserDetails(id, userDto));
     }
 
-    @DeleteMapping
-    public String deleteUser() {
-        return "delete user was called";
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus deleteUser(@RequestParam String id) {
+        OperationStatus result = new OperationStatus();
+
+        result.setOperationName(RequestOperationNames.DELETE.name());
+        service.deleteUser(id);
+        result.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        return result;
     }
 }
 

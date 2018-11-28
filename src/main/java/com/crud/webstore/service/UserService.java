@@ -2,7 +2,6 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.domain.dto.UserDto;
-import com.crud.webstore.domain.respone.ErrorMessage;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -74,8 +72,13 @@ public class UserService implements UserDetailsService {
         return returnValue;
     }
 
-    public Optional<UserEntity> getUserByUserId(String id) {
-        return repository.getUserEntityByUserId(id);
+    public UserEntity getUserByUserId(String id) {
+        UserEntity userEntity = repository.findByUserId(id);
+
+        if (userEntity == null) {
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        }
+        return userEntity;
     }
 
     public UserDto updateUserDetails(String id, UserDto userDto) throws Exception {
@@ -91,5 +94,14 @@ public class UserService implements UserDetailsService {
         UserEntity updatedUserDetails = repository.save(userEntity);
 
        return userMapper.mapToUserDto(updatedUserDetails);
+    }
+
+    public void deleteUser(String userId) {
+        UserEntity userEntity = repository.findByUserId(userId);
+
+        if (userEntity == null) {
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        }
+        repository.deleteByUserId(userId);
     }
 }
