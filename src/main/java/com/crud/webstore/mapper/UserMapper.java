@@ -5,6 +5,9 @@ import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.UserResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class UserMapper {
     public UserEntity mapToUserEntity(final UserDto userDto) {
@@ -34,5 +37,21 @@ public class UserMapper {
                 userDto.getLastName(),
                 userDto.getEmail()
         );
+    }
+
+    public List<UserResponse> mapToUserListResponse(final List<UserDto> userDto) {
+        return userDto.stream()
+                .map(u -> new UserResponse(u.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail()))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserDto> mapToUserListDto(final List<UserEntity> userEntities) {
+        return userEntities.stream()
+                .map(u -> new UserDto(u.getUserId(),
+                        u.getFirstName(),
+                        u.getLastName(),
+                        u.getEmail(),
+                        u.getEncryptedPassword()))
+                .collect(Collectors.toList());
     }
 }

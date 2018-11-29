@@ -1,14 +1,17 @@
 package com.crud.webstore.repository;
 
 import com.crud.webstore.domain.UserEntity;
+import com.crud.webstore.domain.dto.UserDto;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 @Transactional
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
     @Override
     UserEntity save(final UserEntity userEntity);
 
@@ -17,5 +20,7 @@ public interface UserRepository extends CrudRepository<UserEntity, Long> {
     UserEntity findByUserId(String id);
 
     void deleteByUserId(String userId);
+
+    //List<UserDto> findAll(int page, int limit);
 
 }

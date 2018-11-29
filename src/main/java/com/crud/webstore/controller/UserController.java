@@ -6,13 +6,14 @@ import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.domain.respone.OperationStatus;
 import com.crud.webstore.domain.respone.RequestOperationStatus;
 import com.crud.webstore.domain.respone.UserResponse;
-import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/v1/users")
@@ -51,9 +52,18 @@ public class UserController {
         OperationStatus result = new OperationStatus();
 
         result.setOperationName(RequestOperationNames.DELETE.name());
+
         service.deleteUser(id);
+
         result.setOperationResult(RequestOperationStatus.SUCCESS.name());
         return result;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserResponse> getUsers(
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "limit", defaultValue = "25") int limit) {
+        return userMapper.mapToUserListResponse(service.findAll(page, limit));
     }
 }
 

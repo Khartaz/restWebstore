@@ -32,7 +32,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, SecurityConstans.SIGN_UP_URL)
+                .antMatchers(HttpMethod.POST, SecurityConstans.SIGN_UP_URL, "/storage/uploadFile")
                 .permitAll()
                 .antMatchers(HttpMethod.GET)
                 .permitAll()

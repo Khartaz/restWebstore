@@ -10,6 +10,9 @@ import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -103,5 +107,17 @@ public class UserService implements UserDetailsService {
             throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
         }
         repository.deleteByUserId(userId);
+    }
+
+    public List<UserDto> findAll(int page, int limit) {
+        if (page > 0) {
+            page = page - 1;
+        }
+
+        Pageable pageableRequest = new PageRequest(page, limit);
+        Page<UserEntity> usersPage = repository.findAll(pageableRequest);
+        List<UserEntity> users = usersPage.getContent();
+
+       return userMapper.mapToUserListDto(users);
     }
 }
