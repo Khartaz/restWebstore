@@ -8,7 +8,6 @@ import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,11 +68,12 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto getUser(final String email) {
+        /* To Delete Later
         UserEntity userEntity = repository.findByEmail(email);
         UserDto returnValue = new UserDto();
         BeanUtils.copyProperties(userEntity, returnValue);
-
-        return returnValue;
+        */
+        return userMapper.mapToUserDto(repository.findByEmail(email));
     }
 
     public UserEntity getUserByUserId(String id) {
