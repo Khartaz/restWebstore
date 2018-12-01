@@ -1,13 +1,15 @@
 package com.crud.webstore.domain.dto;
 
+import java.util.List;
+
 public class UserDto {
-    //private long id;
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String encryptedPassword;
+    private List<AddressDto> addressDtoList;
 
     public UserDto() {
     }
@@ -67,5 +69,13 @@ public class UserDto {
 
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
+    }
+
+    public List<AddressDto> getAddressDtoList() {
+        return addressDtoList;
+    }
+
+    public void setAddressDtoList(List<AddressDto> addressDtoList) {
+        this.addressDtoList = addressDtoList;
     }
 }
