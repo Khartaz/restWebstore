@@ -24,5 +24,7 @@ public class UserEntityTestSuite {
         long id = userEntity.getId();
         UserEntity userEntity1 = userRepository.findOne(id);
         Assert.assertEquals(id, userEntity1.getId());
+        //CleanUp
+        userRepository.delete(id);
     }
 }

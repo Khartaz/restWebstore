@@ -24,5 +24,7 @@ public class AddressEntityTestSuite {
         long id = addressEntity.getId();
         AddressEntity resultEntity = addressRepository.findOne(id);
         Assert.assertEquals(id, resultEntity.getId());
+        //CleanUp
+        addressRepository.delete(id);
     }
 }
