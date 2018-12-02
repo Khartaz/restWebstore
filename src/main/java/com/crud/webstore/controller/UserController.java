@@ -23,6 +23,7 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserResponse getUser(@RequestParam String id) {
         return userMapper.mapToUserResponse(
@@ -30,17 +31,18 @@ public class UserController {
     }
 
     @PostMapping(value = "createUser",
-            consumes = MediaType.APPLICATION_JSON_VALUE ,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
             )
     public @ResponseBody UserResponse createUser(@RequestBody UserDto userDto) {
         if (userDto.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+
         return userMapper.mapToUserResponse(userMapper.mapToUserDto(service.save(userDto)));
     }
 
     @PutMapping(value = "updateUserDetails",
-            consumes = MediaType.APPLICATION_JSON_VALUE ,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
             )
     public UserResponse updateUser(@RequestBody UserDto userDto, @RequestParam String id) throws Exception {

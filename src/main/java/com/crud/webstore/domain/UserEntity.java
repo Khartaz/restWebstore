@@ -1,6 +1,7 @@
 package com.crud.webstore.domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "USERS")
 public class UserEntity {
@@ -26,16 +27,25 @@ public class UserEntity {
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
+    @OneToMany(
+            targetEntity = AddressEntity.class,
+            mappedBy = "userEntity",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY
+    )
+    private List<AddressEntity> addressEntityList;
+
     public UserEntity() {
     }
 
     public UserEntity(String userId, String firstName, String lastName,
-                      String email, String encryptedPassword) {
+                      String email, String encryptedPassword, List<AddressEntity> addressEntityList) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.addressEntityList = addressEntityList;
     }
 
     public long getId() {
@@ -88,5 +98,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<AddressEntity> getAddressEntityList() {
+        return addressEntityList;
+    }
+
+    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
+        this.addressEntityList = addressEntityList;
     }
 }

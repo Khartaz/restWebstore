@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
 
         findByEmail(userMapper.mapToUserEntity(userDto));
 
-        userDto.setUserId(generateUserId());
+        userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
 
         return repository.save(userMapper.mapToUserEntity(userDto));
@@ -49,8 +49,8 @@ public class UserService implements UserDetailsService {
         return userEntity;
     }
 
-    public String generateUserId() {
-        return utils.generateUserId(20);
+    public String generatePublicId() {
+        return utils.generatePublicId(20);
     }
 
     public String passwordEncoder(final String password) {

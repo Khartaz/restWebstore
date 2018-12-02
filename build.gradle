@@ -33,6 +33,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('mysql:mysql-connector-java')
     compile('com.amazonaws:aws-java-sdk:1.11.330')
+    compile('org.modelmapper:modelmapper:0.7.5')
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

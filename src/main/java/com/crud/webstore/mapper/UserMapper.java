@@ -16,7 +16,8 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getEmail(),
-                userDto.getEncryptedPassword()
+                userDto.getEncryptedPassword(),
+                userDto.getAddressList()
         );
     }
 
@@ -26,7 +27,8 @@ public class UserMapper {
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getEmail(),
-                userEntity.getEncryptedPassword()
+                userEntity.getEncryptedPassword(),
+                userEntity.getAddressEntityList()
         );
     }
 
@@ -35,13 +37,14 @@ public class UserMapper {
                 userDto.getUserId(),
                 userDto.getFirstName(),
                 userDto.getLastName(),
-                userDto.getEmail()
+                userDto.getEmail(),
+                userDto.getAddressList()
         );
     }
 
     public List<UserResponse> mapToUserListResponse(final List<UserDto> userDto) {
         return userDto.stream()
-                .map(u -> new UserResponse(u.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail()))
+                .map(u -> new UserResponse(u.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getAddressList()))
                 .collect(Collectors.toList());
     }
 
@@ -51,7 +54,8 @@ public class UserMapper {
                         u.getFirstName(),
                         u.getLastName(),
                         u.getEmail(),
-                        u.getEncryptedPassword()))
+                        u.getEncryptedPassword(),
+                        u.getAddressEntityList()))
                 .collect(Collectors.toList());
     }
 }

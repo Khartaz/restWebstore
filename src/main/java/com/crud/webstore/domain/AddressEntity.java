@@ -1,16 +1,48 @@
 package com.crud.webstore.domain;
 
+import javax.persistence.*;
+
+@Entity(name = "ADDRESSES")
 public class AddressEntity {
+    @Id
+    @GeneratedValue
     private long id;
+
+    @Column(name = "ADDRESS_ID")
     private String addressId;
+
+    @Column(name = "CITY")
     private String city;
+
+    @Column(name = "COUNTRY")
     private String country;
+
+    @Column(name = "STREET_NAME")
     private String streetName;
+
+    @Column(name = "POSTAL_CODE")
     private String postalCode;
+
+    @Column(name = "TYPE")
     private String type;
+
+    @ManyToOne
+    @JoinColumn(name = "USERS_ID")
+    private UserEntity userEntity;
 
     public AddressEntity() {
 
+    }
+
+    public AddressEntity(String addressId, String city,
+                         String country, String streetName,
+                         String postalCode, String type) {
+        this.addressId = addressId;
+        this.city = city;
+        this.country = country;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.type = type;
     }
 
     public long getId() {
@@ -67,5 +99,13 @@ public class AddressEntity {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public UserEntity getUserEntity() {
+        return userEntity;
+    }
+
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 }

@@ -1,5 +1,7 @@
 package com.crud.webstore.domain.dto;
 
+import com.crud.webstore.domain.AddressEntity;
+
 import java.util.List;
 
 public class UserDto {
@@ -9,18 +11,20 @@ public class UserDto {
     private String email;
     private String password;
     private String encryptedPassword;
-    private List<AddressDto> addressDtoList;
+    private List<AddressEntity> addressList;
+    private AddressDto addressDto;
 
     public UserDto() {
     }
 
     public UserDto(String userId, String firstName,
-                   String lastName, String email, String encryptedPassword) {
+                   String lastName, String email, String encryptedPassword, List<AddressEntity> addressList) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.addressList = addressList;
     }
 
     public String getUserId() {
@@ -71,11 +75,19 @@ public class UserDto {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public List<AddressDto> getAddressDtoList() {
-        return addressDtoList;
+    public List<AddressEntity> getAddressList() {
+        return addressList;
     }
 
-    public void setAddressDtoList(List<AddressDto> addressDtoList) {
-        this.addressDtoList = addressDtoList;
+    public void setAddressList(List<AddressEntity> addressList) {
+        this.addressList = addressList;
+    }
+
+    public AddressDto getAddressDto() {
+        return addressDto;
+    }
+
+    public void setAddressDto(AddressDto addressDto) {
+        this.addressDto = addressDto;
     }
 }
