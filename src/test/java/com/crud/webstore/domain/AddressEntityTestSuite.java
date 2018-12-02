@@ -15,7 +15,7 @@ public class AddressEntityTestSuite {
     private AddressRepository addressRepository;
 
     @Test
-    public void testUserEntitySave() {
+    public void testAddressEntitySave() {
         //Given
         AddressEntity addressEntity = new AddressEntity("test1", "test1", "test1", "test1", "test1", "test");
         //When

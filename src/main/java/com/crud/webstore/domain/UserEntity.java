@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "USERS")
+@Entity(name = "users")
 public class UserEntity {
 
     @Id
@@ -30,10 +30,10 @@ public class UserEntity {
 
 
     @OneToMany(
-            targetEntity = AddressEntity.class,
+            //targetEntity = AddressEntity.class,
             mappedBy = "userEntity",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            cascade = CascadeType.ALL
+            //fetch = FetchType.LAZY
     )
     private List<AddressEntity> addressEntityList = new ArrayList<>();
 

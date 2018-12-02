@@ -2,7 +2,7 @@ package com.crud.webstore.domain;
 
 import javax.persistence.*;
 
-@Entity(name = "ADDRESSES")
+@Entity(name = "addresses")
 public class AddressEntity {
     @Id
     @GeneratedValue
@@ -27,7 +27,7 @@ public class AddressEntity {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "USERS_ID")
+    @JoinColumn(name = "users_id")
     private UserEntity userEntity;
 
     public AddressEntity() {
@@ -43,6 +43,7 @@ public class AddressEntity {
         this.postalCode = postalCode;
         this.type = type;
     }
+
 
     public long getId() {
         return id;
