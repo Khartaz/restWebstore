@@ -36,13 +36,13 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getEmail(),
-                userDto.getAddressList()
+                userDto.getAddress()
         );
     }
 
     public List<UserResponse> mapToUserListResponse(final List<UserDto> userDto) {
         return userDto.stream()
-                .map(u -> new UserResponse(u.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getAddressList()))
+                .map(u -> new UserResponse(u.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail(), u.getAddress()))
                 .collect(Collectors.toList());
     }
 

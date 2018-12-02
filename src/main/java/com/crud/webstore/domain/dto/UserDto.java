@@ -1,7 +1,5 @@
 package com.crud.webstore.domain.dto;
 
-import com.crud.webstore.domain.AddressEntity;
-
 import java.util.List;
 
 public class UserDto {
@@ -11,7 +9,7 @@ public class UserDto {
     private String email;
     private String password;
     private String encryptedPassword;
-    private List<AddressEntity> addressList;
+    private List<AddressDto> addressList;
 
     public UserDto() {
     }
@@ -73,11 +71,11 @@ public class UserDto {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public List<AddressEntity> getAddressList() {
+    public List<AddressDto> getAddress() {
         return addressList;
     }
 
-    public void setAddressList(List<AddressEntity> addressList) {
+    public void setAddressList(List<AddressDto> addressList) {
         this.addressList = addressList;
     }
 }

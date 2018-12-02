@@ -1,5 +1,6 @@
 package com.crud.webstore.service;
 
+import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,24 +46,13 @@ public class UserService implements UserDetailsService {
 
 
 
-        userDto.getAddressList().stream()
-                .findAny().ifPresent(v -> addressRepository.save(v));
-
-
-        /*
-        for (int i=0; i<userDto.getAddressList().size(); i++) {
-            AddressDto addressDto = userDto.getAddressList().get(i);
-            addressDto.setUserDto(userDto);
-            addressDto.setAddressId(generatePublicId());
-            userDto.getAddressList().set(i, addressDto);
-        }
-        */
 
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
 
         return repository.save(userMapper.mapToUserEntity(userDto));
     }
+
 
     public UserEntity findByEmail(final UserEntity userEntity) {
         if (repository.findByEmail(userEntity.getEmail()) != null) throw new RuntimeException("Record already exist");
