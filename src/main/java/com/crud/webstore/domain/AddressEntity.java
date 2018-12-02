@@ -1,11 +1,14 @@
 package com.crud.webstore.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-@Entity(name = "addresses")
+@Entity
+@Table(name = "addresses")
 public class AddressEntity {
     @Id
     @GeneratedValue
+    @Column(name = "id")
     private long id;
 
     @Column(name = "ADDRESS_ID")
@@ -26,11 +29,24 @@ public class AddressEntity {
     @Column(name = "TYPE")
     private String type;
 
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "users_entity_id")
     private UserEntity userEntity;
 
     public AddressEntity() {
+    }
+
+    public AddressEntity(String addressId, String city,
+                         String country, String streetName,
+                         String postalCode, String type, UserEntity userEntity) {
+        this.addressId = addressId;
+        this.city = city;
+        this.country = country;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.type = type;
+        this.userEntity = userEntity;
     }
 
     public AddressEntity(String addressId, String city,
@@ -43,7 +59,6 @@ public class AddressEntity {
         this.postalCode = postalCode;
         this.type = type;
     }
-
 
     public long getId() {
         return id;
@@ -100,6 +115,7 @@ public class AddressEntity {
     public void setType(String type) {
         this.type = type;
     }
+
 
     public UserEntity getUserEntity() {
         return userEntity;

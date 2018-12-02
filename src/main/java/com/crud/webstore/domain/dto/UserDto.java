@@ -12,7 +12,6 @@ public class UserDto {
     private String password;
     private String encryptedPassword;
     private List<AddressEntity> addressList;
-    private AddressDto addressDto;
 
     public UserDto() {
     }
@@ -80,13 +79,5 @@ public class UserDto {
 
     public void setAddressList(List<AddressEntity> addressList) {
         this.addressList = addressList;
-    }
-
-    public AddressDto getAddressDto() {
-        return addressDto;
-    }
-
-    public void setAddressDto(AddressDto addressDto) {
-        this.addressDto = addressDto;
     }
 }

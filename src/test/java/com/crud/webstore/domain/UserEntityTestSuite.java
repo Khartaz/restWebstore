@@ -20,11 +20,11 @@ public class UserEntityTestSuite {
     @Test
     public void testUserEntitySave() {
         //Given
-        UserEntity userEntity = new UserEntity("test1", "test1", "test1", "test1", "test1");
+        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1");
         //When
-        userRepository.save(userEntity);
+        userRepository.save(user1);
         //Then
-        long id = userEntity.getId();
+        long id = user1.getId();
         UserEntity userEntity1 = userRepository.findOne(id);
         Assert.assertEquals(id, userEntity1.getId());
         //CleanUp
@@ -34,17 +34,23 @@ public class UserEntityTestSuite {
     @Test
     public void testUserEntitySaveWithAddresses() {
         //Given
-        UserEntity userEntity = new UserEntity("test2", "test2", "test2", "test2", "test2");
-        userRepository.save(userEntity);
+        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1");
+        UserEntity user2 = new UserEntity("test2", "test2", "test2", "test2", "test2");
+        userRepository.save(user1);
+        userRepository.save(user2);
 
-        AddressEntity addressEntity = new AddressEntity("test2", "test2", "test2", "test2", "test2", "test2");
-        userEntity.getAddressEntityList().add(addressEntity);
+        AddressEntity address1 = new AddressEntity("test1", "test1", "test1", "test1", "test1", "test1", user1);
+        AddressEntity address2 = new AddressEntity("test2", "test2", "test2", "test2", "test2", "test2", user2);
         //When
-        addressRepository.save(addressEntity);
-        long id = addressEntity.getId();
+        addressRepository.save(address1);
+        addressRepository.save(address2);
+        long id1 = user1.getId();
+        long id2 = user2.getId();
         //Then
-        Assert.assertEquals(1, id);
-
-
+        Assert.assertNotEquals(0, id1);
+        Assert.assertNotEquals(0, id2);
+        //Clean up
+        userRepository.delete(id1);
+        userRepository.delete(id2);
     }
 }

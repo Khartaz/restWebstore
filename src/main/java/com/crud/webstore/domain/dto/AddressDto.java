@@ -8,6 +8,7 @@ public class AddressDto {
     private String streetName;
     private String postalCode;
     private String type;
+    private UserDto userDto;
 
 
     public AddressDto() {
@@ -69,4 +70,12 @@ public class AddressDto {
         this.type = type;
     }
 
+    public UserDto getUserDto() {
+        return userDto;
+    }
+
+    public void setUserDto(UserDto userDto) {
+        this.userDto = userDto;
+    }
 }
+

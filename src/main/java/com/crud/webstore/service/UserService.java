@@ -1,11 +1,13 @@
 package com.crud.webstore.service;
 
 import com.crud.webstore.domain.UserEntity;
+import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
+import com.crud.webstore.repository.AddressRepository;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
 import org.modelmapper.ModelMapper;
@@ -22,12 +24,15 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private AddressRepository addressRepository;
     @Autowired
     private UtilsImpl utils;
     @Autowired
@@ -38,6 +43,21 @@ public class UserService implements UserDetailsService {
     public UserEntity save(final UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
         findByEmail(userMapper.mapToUserEntity(userDto));
+
+
+
+        userDto.getAddressList().stream()
+                .findAny().ifPresent(v -> addressRepository.save(v));
+
+
+        /*
+        for (int i=0; i<userDto.getAddressList().size(); i++) {
+            AddressDto addressDto = userDto.getAddressList().get(i);
+            addressDto.setUserDto(userDto);
+            addressDto.setAddressId(generatePublicId());
+            userDto.getAddressList().set(i, addressDto);
+        }
+        */
 
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
