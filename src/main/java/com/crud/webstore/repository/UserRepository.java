@@ -1,8 +1,6 @@
 package com.crud.webstore.repository;
 
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.UserDto;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 

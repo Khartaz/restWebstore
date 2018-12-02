@@ -18,13 +18,12 @@ public class UserDto {
     }
 
     public UserDto(String userId, String firstName,
-                   String lastName, String email, String encryptedPassword, List<AddressEntity> addressList) {
+                   String lastName, String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
-        this.addressList = addressList;
     }
 
     public String getUserId() {

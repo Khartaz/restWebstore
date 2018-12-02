@@ -8,6 +8,7 @@ import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +36,7 @@ public class UserService implements UserDetailsService {
     private UserMapper userMapper;
 
     public UserEntity save(final UserDto userDto) {
-
+        ModelMapper mapper = new ModelMapper();
         findByEmail(userMapper.mapToUserEntity(userDto));
 
         userDto.setUserId(generatePublicId());

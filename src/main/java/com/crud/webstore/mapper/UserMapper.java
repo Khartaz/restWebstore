@@ -16,8 +16,7 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getEmail(),
-                userDto.getEncryptedPassword(),
-                userDto.getAddressList()
+                userDto.getEncryptedPassword()
         );
     }
 
@@ -27,8 +26,7 @@ public class UserMapper {
                 userEntity.getFirstName(),
                 userEntity.getLastName(),
                 userEntity.getEmail(),
-                userEntity.getEncryptedPassword(),
-                userEntity.getAddressEntityList()
+                userEntity.getEncryptedPassword()
         );
     }
 
@@ -54,8 +52,7 @@ public class UserMapper {
                         u.getFirstName(),
                         u.getLastName(),
                         u.getEmail(),
-                        u.getEncryptedPassword(),
-                        u.getAddressEntityList()))
+                        u.getEncryptedPassword()))
                 .collect(Collectors.toList());
     }
 }

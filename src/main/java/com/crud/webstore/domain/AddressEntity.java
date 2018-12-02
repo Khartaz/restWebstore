@@ -31,7 +31,6 @@ public class AddressEntity {
     private UserEntity userEntity;
 
     public AddressEntity() {
-
     }
 
     public AddressEntity(String addressId, String city,
