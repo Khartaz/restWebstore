@@ -1,7 +1,6 @@
 package com.crud.webstore.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "addresses")

@@ -9,7 +9,7 @@ public class UserDto {
     private String email;
     private String password;
     private String encryptedPassword;
-    private List<AddressDto> addressList;
+    private List<AddressDto> addresses;
 
     public UserDto() {
     }
@@ -22,6 +22,7 @@ public class UserDto {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
+
 
     public String getUserId() {
         return userId;
@@ -71,12 +72,11 @@ public class UserDto {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public List<AddressDto> getAddress() {
-        return addressList;
+    public List<AddressDto> getAddresses() {
+        return addresses;
     }
 
-    public void setAddressList(List<AddressDto> addressList) {
-        this.addressList = addressList;
+    public void setAddresses(List<AddressDto> addresses) {
+        this.addresses = addresses;
     }
-
 }

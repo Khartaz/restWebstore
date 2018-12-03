@@ -1,5 +1,7 @@
 package com.crud.webstore.domain;
 
+import com.crud.webstore.domain.dto.AddressDto;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,13 +32,7 @@ public class UserEntity {
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
-
-    @OneToMany(
-            //targetEntity = AddressEntity.class,
-            //mappedBy = "userEntity",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
-    )
+    @OneToMany(cascade = CascadeType.ALL)
     private List<AddressEntity> addresses = new ArrayList<>();
 
     public UserEntity() {
@@ -50,6 +46,7 @@ public class UserEntity {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
+
 
     public long getId() {
         return id;

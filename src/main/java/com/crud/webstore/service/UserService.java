@@ -2,6 +2,7 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
+import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
@@ -25,6 +26,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
@@ -43,16 +45,15 @@ public class UserService implements UserDetailsService {
         ModelMapper mapper = new ModelMapper();
         findByEmail(userMapper.mapToUserEntity(userDto));
 
-
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
 
-
-        userDto.getAddress().stream()
+        userDto.getAddresses().stream()
                 .findAny().ifPresent(v -> {
-                    addressRepository.save(mapper.map(v, AddressEntity.class));
+            addressRepository.save(mapper.map(v, AddressEntity.class));
         });
 
+        //return repository.save(mapper.map(userDto, UserEntity.class));
         return repository.save(userMapper.mapToUserEntity(userDto));
     }
 
