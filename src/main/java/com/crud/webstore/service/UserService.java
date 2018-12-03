@@ -2,7 +2,6 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional

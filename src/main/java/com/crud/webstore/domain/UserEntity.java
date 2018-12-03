@@ -32,8 +32,8 @@ public class UserEntity {
 
 
     @OneToMany(
-            targetEntity = AddressEntity.class,
-            mappedBy = "userEntity",
+            //targetEntity = AddressEntity.class,
+            //mappedBy = "userEntity",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )

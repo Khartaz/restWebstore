@@ -39,8 +39,9 @@ public class UserEntityTestSuite {
         userRepository.save(user1);
         userRepository.save(user2);
 
-        AddressEntity address1 = new AddressEntity("test1", "test1", "test1", "test1", "test1", "test1", user1);
+        AddressEntity address1 = new AddressEntity("test1", "test1", "test1", "test1", "test1", "test1");
         AddressEntity address2 = new AddressEntity("test2", "test2", "test2", "test2", "test2", "test2");
+        user1.getAddressEntityList().add(address1);
         user2.getAddressEntityList().add(address2);
         //When
         addressRepository.save(address1);

@@ -29,14 +29,17 @@ public class AddressEntity {
     @Column(name = "TYPE")
     private String type;
 
+    /*
     @NotNull
     @ManyToOne
     @JoinColumn(name = "users_entity_id")
     private UserEntity userEntity;
-
+    */
     public AddressEntity() {
     }
 
+
+    /*
     public AddressEntity(String addressId, String city,
                          String country, String streetName,
                          String postalCode, String type, UserEntity userEntity) {
@@ -48,7 +51,7 @@ public class AddressEntity {
         this.type = type;
         this.userEntity = userEntity;
     }
-
+    */
     public AddressEntity(String addressId, String city,
                          String country, String streetName,
                          String postalCode, String type) {
@@ -116,12 +119,4 @@ public class AddressEntity {
         this.type = type;
     }
 
-
-    public UserEntity getUserEntity() {
-        return userEntity;
-    }
-
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
-    }
 }
