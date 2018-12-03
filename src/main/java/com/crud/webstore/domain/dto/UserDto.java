@@ -78,4 +78,5 @@ public class UserDto {
     public void setAddressList(List<AddressDto> addressList) {
         this.addressList = addressList;
     }
+
 }

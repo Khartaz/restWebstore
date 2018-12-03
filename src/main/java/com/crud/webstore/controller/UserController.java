@@ -2,7 +2,6 @@ package com.crud.webstore.controller;
 
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.request.RequestOperationNames;
-import com.crud.webstore.domain.request.UserDetailsRequest;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.domain.respone.OperationStatus;
 import com.crud.webstore.domain.respone.RequestOperationStatus;
@@ -10,7 +9,6 @@ import com.crud.webstore.domain.respone.UserResponse;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +38,7 @@ public class UserController {
         if (userDto.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
-        return userMapper.mapToUserResponse(userMapper.mapToUserDto(service.save(userDto)));
+        return userMapper.mapToUserResponse(userMapper.mapToUserDto(service.createUser(userDto)));
     }
 
     @PutMapping(value = "updateUserDetails",

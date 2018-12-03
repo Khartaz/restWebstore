@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -40,15 +41,19 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
-    public UserEntity save(final UserDto userDto) {
+    public UserEntity createUser(final UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
         findByEmail(userMapper.mapToUserEntity(userDto));
 
 
-
-
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
+
+
+        userDto.getAddress().stream()
+                .findAny().ifPresent(v -> {
+                    addressRepository.save(mapper.map(v, AddressEntity.class));
+        });
 
         return repository.save(userMapper.mapToUserEntity(userDto));
     }
@@ -78,11 +83,7 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDto getUser(final String email) {
-        /* To Delete Later
-        UserEntity userEntity = repository.findByEmail(email);
-        UserDto returnValue = new UserDto();
-        BeanUtils.copyProperties(userEntity, returnValue);
-        */
+
         return userMapper.mapToUserDto(repository.findByEmail(email));
     }
 

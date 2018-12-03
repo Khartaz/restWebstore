@@ -10,7 +10,6 @@ public class AddressDto {
     private String type;
     private UserDto userDto;
 
-
     public AddressDto() {
     }
 
