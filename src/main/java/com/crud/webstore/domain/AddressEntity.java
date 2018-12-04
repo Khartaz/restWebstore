@@ -28,29 +28,9 @@ public class AddressEntity {
     @Column(name = "TYPE")
     private String type;
 
-    /*
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "users_entity_id")
-    private UserEntity userEntity;
-    */
     public AddressEntity() {
     }
 
-
-    /*
-    public AddressEntity(String addressId, String city,
-                         String country, String streetName,
-                         String postalCode, String type, UserEntity userEntity) {
-        this.addressId = addressId;
-        this.city = city;
-        this.country = country;
-        this.streetName = streetName;
-        this.postalCode = postalCode;
-        this.type = type;
-        this.userEntity = userEntity;
-    }
-    */
     public AddressEntity(String addressId, String city,
                          String country, String streetName,
                          String postalCode, String type) {

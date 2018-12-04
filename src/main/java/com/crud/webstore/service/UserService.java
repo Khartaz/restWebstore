@@ -41,17 +41,27 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
+    private ModelMapper mapper;
+
     public UserEntity createUser(final UserDto userDto) {
-        ModelMapper mapper = new ModelMapper();
         findByEmail(userMapper.mapToUserEntity(userDto));
 
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
 
-        userDto.getAddresses().stream()
-                .findAny().ifPresent(v -> {
-            addressRepository.save(mapper.map(v, AddressEntity.class));
-        });
+        List<AddressDto> addressDtos = new ArrayList<>();
+        addressDtos.forEach(v -> {
+                    v.setAddressId(generatePublicId());
+                    v.setCity("city");
+                    v.setCountry("country");
+                    v.setPostalCode("postal");
+                    v.setStreetName("street name");
+                });
+
+        addressRepository.save(mapper.map(addressDtos, AddressEntity.class));
+        userDto.setAddresses(addressDtos);
+
+        System.out.println(addressDtos);
 
         //return repository.save(mapper.map(userDto, UserEntity.class));
         return repository.save(userMapper.mapToUserEntity(userDto));

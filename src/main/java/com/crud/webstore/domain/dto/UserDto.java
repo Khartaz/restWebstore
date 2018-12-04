@@ -14,15 +14,13 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(String userId, String firstName,
-                   String lastName, String email, String encryptedPassword) {
+    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
-
 
     public String getUserId() {
         return userId;

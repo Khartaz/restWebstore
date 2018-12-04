@@ -38,15 +38,13 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String userId, String firstName, String lastName,
-                      String email, String encryptedPassword) {
+    public UserEntity(String userId, String firstName, String lastName, String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
     }
-
 
     public long getId() {
         return id;

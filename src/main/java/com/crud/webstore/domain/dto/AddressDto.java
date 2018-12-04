@@ -13,6 +13,17 @@ public class AddressDto {
     public AddressDto() {
     }
 
+    public AddressDto(String addressId, String city,
+                      String country, String streetName,
+                      String postalCode, String type) {
+        this.addressId = addressId;
+        this.city = city;
+        this.country = country;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.type = type;
+    }
+
     public long getId() {
         return id;
     }
