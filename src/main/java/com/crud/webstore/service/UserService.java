@@ -2,16 +2,14 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
+import com.crud.webstore.mapper.AddressMapper;
 import com.crud.webstore.mapper.UserMapper;
-import com.crud.webstore.repository.AddressRepository;
 import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.service.impl.UtilsImpl;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +23,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -33,15 +32,14 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
     @Autowired
-    private AddressRepository addressRepository;
-    @Autowired
     private UtilsImpl utils;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private AddressMapper mapper;
 
-    private ModelMapper mapper;
 
     public UserEntity createUser(final UserDto userDto) {
         findByEmail(userMapper.mapToUserEntity(userDto));
@@ -49,22 +47,13 @@ public class UserService implements UserDetailsService {
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
 
-        List<AddressDto> addressDtos = new ArrayList<>();
-        addressDtos.forEach(v -> {
-                    v.setAddressId(generatePublicId());
-                    v.setCity("city");
-                    v.setCountry("country");
-                    v.setPostalCode("postal");
-                    v.setStreetName("street name");
-                });
+        List<AddressEntity> list = userDto.getAddresses().stream()
+                        .map(v -> mapper.mapToAddressEntity(v))
+                        .collect(Collectors.toList());
 
-        addressRepository.save(mapper.map(addressDtos, AddressEntity.class));
-        userDto.setAddresses(addressDtos);
+        list.forEach(v -> v.setAddressId(generatePublicId()));
 
-        System.out.println(addressDtos);
-
-        //return repository.save(mapper.map(userDto, UserEntity.class));
-        return repository.save(userMapper.mapToUserEntity(userDto));
+        return repository.save(userMapper.mapToUserEntity(userDto, list));
     }
 
 

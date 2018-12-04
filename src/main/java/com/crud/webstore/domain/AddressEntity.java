@@ -31,10 +31,9 @@ public class AddressEntity {
     public AddressEntity() {
     }
 
-    public AddressEntity(String addressId, String city,
+    public AddressEntity(String city,
                          String country, String streetName,
                          String postalCode, String type) {
-        this.addressId = addressId;
         this.city = city;
         this.country = country;
         this.streetName = streetName;

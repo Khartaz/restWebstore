@@ -13,10 +13,9 @@ public class AddressDto {
     public AddressDto() {
     }
 
-    public AddressDto(String addressId, String city,
+    public AddressDto(String city,
                       String country, String streetName,
                       String postalCode, String type) {
-        this.addressId = addressId;
         this.city = city;
         this.country = country;
         this.streetName = streetName;

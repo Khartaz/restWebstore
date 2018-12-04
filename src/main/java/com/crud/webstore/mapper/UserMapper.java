@@ -1,5 +1,6 @@
 package com.crud.webstore.mapper;
 
+import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.respone.UserResponse;
@@ -54,5 +55,12 @@ public class UserMapper {
                         u.getEmail(),
                         u.getEncryptedPassword()))
                 .collect(Collectors.toList());
+    }
+
+    public UserEntity mapToUserEntity(UserDto userDto, List<AddressEntity> list) {
+        UserEntity userEntity = mapToUserEntity(userDto);
+        userEntity.setAddressEntityList(list);
+
+        return userEntity;
     }
 }

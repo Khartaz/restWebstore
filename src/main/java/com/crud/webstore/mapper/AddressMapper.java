@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 public class AddressMapper {
     public AddressDto mapToAddressDto(final AddressEntity addressEntity) {
         return new AddressDto(
-                addressEntity.getAddressId(),
                 addressEntity.getCity(),
                 addressEntity.getCountry(),
                 addressEntity.getStreetName(),
@@ -17,9 +16,8 @@ public class AddressMapper {
         );
     }
 
-    public AddressEntity mapToAddressEntity(final AddressDto addressDto) {
+    public AddressEntity mapToAddressEntity(AddressDto addressDto) {
         return new AddressEntity(
-                addressDto.getAddressId(),
                 addressDto.getCity(),
                 addressDto.getCountry(),
                 addressDto.getStreetName(),
