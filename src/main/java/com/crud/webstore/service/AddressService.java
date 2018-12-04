@@ -2,26 +2,32 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.dto.AddressDto;
+import com.crud.webstore.mapper.AddressMapper;
+import com.crud.webstore.repository.AddressRepository;
+import com.crud.webstore.service.impl.UtilsImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddressService {
+    @Autowired
+    private AddressMapper mapper;
+    @Autowired
+    private UtilsImpl utils;
+    @Autowired
+    private AddressService service;
+    @Autowired
+    private AddressRepository repository;
 
-    public AddressEntity save(final AddressEntity addressEntity) {
-        AddressDto addressDto = new AddressDto();
-        return null;
+    public AddressEntity save(final AddressDto addressDto) {
+        return repository.save(mapper.mapToAddressEntity(addressDto));
     }
 
-    public List<AddressDto> createAddress(AddressEntity addressEntity) {
+    public AddressDto createAddress(AddressDto addressDto) {
 
+        addressDto.setAddressId(utils.generatePublicId(20));
 
+        service.save(addressDto);
 
-
-
-
-
-
-        return new ArrayList<>();
+        return addressDto;
     }
 }
