@@ -34,6 +34,10 @@ dependencies {
     compile('mysql:mysql-connector-java')
     compile('com.amazonaws:aws-java-sdk:1.11.330')
     compile('org.modelmapper:modelmapper:0.7.5')
+
+    //Swagger
+    compile('io.springfox:springfox-swagger2:2.7.0')
+    compile('io.springfox:springfox-swagger-ui:2.7.0')
     
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

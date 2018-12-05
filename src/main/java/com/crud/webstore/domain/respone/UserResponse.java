@@ -1,7 +1,5 @@
 package com.crud.webstore.domain.respone;
 
-import java.util.List;
-
 public class UserResponse<T> {
     private String userId;
     private String firstName;

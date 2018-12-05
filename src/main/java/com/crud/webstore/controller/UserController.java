@@ -1,7 +1,5 @@
 package com.crud.webstore.controller;
 
-import com.crud.webstore.domain.AddressEntity;
-import com.crud.webstore.domain.dto.AddressDto;
 import com.crud.webstore.domain.dto.UserDto;
 import com.crud.webstore.domain.request.RequestOperationNames;
 import com.crud.webstore.domain.respone.*;
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,8 +36,6 @@ public class UserController {
     public @ResponseBody UserResponse createUser(@RequestBody UserDto userDto) {
         if (userDto.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-
-
 
         return userMapper.mapToUserResponse(userMapper.mapToUserDto(service.createUser(userDto)));
     }
