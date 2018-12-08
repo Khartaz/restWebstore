@@ -1,6 +1,8 @@
 package com.crud.webstore.web.controller;
 
+import com.crud.webstore.dto.AddressDto;
 import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.mapper.AddressMapper;
 import com.crud.webstore.web.request.RequestOperationNames;
 import com.crud.webstore.web.respone.*;
 import com.crud.webstore.exception.UserServiceException;
@@ -11,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/users")
@@ -20,6 +24,8 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private UserService service;
+    @Autowired
+    private AddressMapper addressMapper;
 
     //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)

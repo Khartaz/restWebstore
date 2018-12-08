@@ -4,6 +4,7 @@ import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.AddressDto;
 import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.web.respone.AddressResponse;
 import com.crud.webstore.web.respone.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -57,9 +58,10 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getEmail(),
-                userDto.getAddresses()
-        );
+                userDto.getAddresses().stream()
+                .map(v -> addressMapper.mapToAddressResponse(v)).collect(Collectors.toList()));
     }
+
 
     public List<UserResponse> mapToUserListResponse(List<UserDto> userDto) {
         return userDto.stream()

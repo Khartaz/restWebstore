@@ -9,13 +9,13 @@ public class UserResponse<T> {
     private String firstName;
     private String lastName;
     private String email;
-    private List<AddressDto> addresses;
+    private List<AddressResponse> addresses;
 
     public UserResponse() {
     }
 
 
-    public UserResponse(String userId, String firstName, String lastName, String email, List<AddressDto> addresses) {
+    public UserResponse(String userId, String firstName, String lastName, String email, List<AddressResponse> addresses) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,11 +67,11 @@ public class UserResponse<T> {
         this.email = email;
     }
 
-    public List<AddressDto> getAddresses() {
+    public List<AddressResponse> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<AddressDto> addresses) {
+    public void setAddresses(List<AddressResponse> addresses) {
         this.addresses = addresses;
     }
 }
