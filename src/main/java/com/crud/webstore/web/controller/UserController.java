@@ -24,8 +24,6 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private UserService service;
-    @Autowired
-    private AddressMapper addressMapper;
 
     //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)

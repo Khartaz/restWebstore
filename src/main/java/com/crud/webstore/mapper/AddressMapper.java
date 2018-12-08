@@ -4,14 +4,9 @@ import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.dto.AddressDto;
 import com.crud.webstore.web.respone.AddressResponse;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class AddressMapper {
 
-    //Change to AddressResponse?
     public AddressDto mapToAddressDto(final AddressEntity addressEntity) {
         return new AddressDto(
                 addressEntity.getAddressId(),
