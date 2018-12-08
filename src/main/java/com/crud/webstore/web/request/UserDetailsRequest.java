@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.request;
+package com.crud.webstore.web.request;
 
 import com.crud.webstore.domain.AddressEntity;
 

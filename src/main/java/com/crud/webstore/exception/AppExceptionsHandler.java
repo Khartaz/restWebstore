@@ -1,7 +1,7 @@
 package com.crud.webstore.exception;
 
-import com.crud.webstore.domain.respone.ErrorMessage;
-import com.crud.webstore.domain.respone.UserResponse;
+import com.crud.webstore.web.respone.ErrorMessage;
+import com.crud.webstore.web.respone.UserResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

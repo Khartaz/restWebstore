@@ -1,25 +1,38 @@
-package com.crud.webstore.domain.dto;
+package com.crud.webstore.web.respone;
+
+import com.crud.webstore.dto.AddressDto;
 
 import java.util.List;
 
-public class UserDto {
+public class UserResponse<T> {
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-    private String encryptedPassword;
     private List<AddressDto> addresses;
 
-    public UserDto() {
+    public UserResponse() {
     }
 
-    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword) {
+
+    public UserResponse(String userId, String firstName, String lastName, String email, List<AddressDto> addresses) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.encryptedPassword = encryptedPassword;
+        this.addresses = addresses;
+    }
+
+    public UserResponse(String userId, String firstName,
+                        String lastName, String email) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public UserResponse(Object message, Object httpHeaders, Object internalServerError) {
+
     }
 
     public String getUserId() {
@@ -52,22 +65,6 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEncryptedPassword() {
-        return encryptedPassword;
-    }
-
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
     }
 
     public List<AddressDto> getAddresses() {

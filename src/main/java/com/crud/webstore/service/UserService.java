@@ -2,8 +2,8 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.UserDto;
-import com.crud.webstore.domain.respone.ErrorMessages;
+import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.web.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.AddressMapper;

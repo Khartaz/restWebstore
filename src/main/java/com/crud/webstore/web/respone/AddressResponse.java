@@ -1,35 +1,12 @@
-package com.crud.webstore.domain.dto;
+package com.crud.webstore.web.respone;
 
-public class AddressDto {
-    private long id;
+public class AddressResponse {
     private String addressId;
     private String city;
     private String country;
     private String streetName;
     private String postalCode;
     private String type;
-    private UserDto userDto;
-
-    public AddressDto() {
-    }
-
-    public AddressDto(String city,
-                      String country, String streetName,
-                      String postalCode, String type) {
-        this.city = city;
-        this.country = country;
-        this.streetName = streetName;
-        this.postalCode = postalCode;
-        this.type = type;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getAddressId() {
         return addressId;
@@ -78,13 +55,4 @@ public class AddressDto {
     public void setType(String type) {
         this.type = type;
     }
-
-    public UserDto getUserDto() {
-        return userDto;
-    }
-
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
 }
-

@@ -1,42 +1,20 @@
-package com.crud.webstore.domain;
+package com.crud.webstore.dto;
 
-import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class UserEntity {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
-    private long id;
-
-    @Column(name = "USER_ID")
+public class UserDto {
     private String userId;
-
-    @Column(name = "FIRST_NAME")
     private String firstName;
-
-    @Column(name = "LAST_NAME")
     private String lastName;
-
-    @Column(name = "EMAIL")
     private String email;
-
     private String password;
-
-    @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
+    private List<AddressDto> addresses;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<AddressEntity> addresses = new ArrayList<>();
-
-    public UserEntity() {
+    public UserDto() {
     }
 
-    public UserEntity(String userId, String firstName, String lastName, String email, String encryptedPassword) {
+    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,12 +22,14 @@ public class UserEntity {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public UserDto(String userId, String firstName, String lastName,
+                   String email, String encryptedPassword, List<AddressDto> addresses) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.encryptedPassword = encryptedPassword;
+        this.addresses = addresses;
     }
 
     public String getUserId() {
@@ -84,6 +64,14 @@ public class UserEntity {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEncryptedPassword() {
         return encryptedPassword;
     }
@@ -92,15 +80,11 @@ public class UserEntity {
         this.encryptedPassword = encryptedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public List<AddressEntity> getAddressEntityList() {
+    public List<AddressDto> getAddresses() {
         return addresses;
     }
 
-    public void setAddressEntityList(List<AddressEntity> addressEntityList) {
-        this.addresses = addressEntityList;
+    public void setAddresses(List<AddressDto> addresses) {
+        this.addresses = addresses;
     }
 }

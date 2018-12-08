@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.dto;
+package com.crud.webstore.dto;
 
 import java.math.BigDecimal;
 

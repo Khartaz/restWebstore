@@ -1,8 +1,8 @@
 package com.crud.webstore.security;
 
 import com.crud.webstore.SpringApplicationContext;
-import com.crud.webstore.domain.request.UserLoginRequest;
-import com.crud.webstore.domain.dto.UserDto;
+import com.crud.webstore.web.request.UserLoginRequest;
+import com.crud.webstore.dto.UserDto;
 import com.crud.webstore.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;

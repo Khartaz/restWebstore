@@ -1,8 +1,8 @@
-package com.crud.webstore.controller;
+package com.crud.webstore.web.controller;
 
-import com.crud.webstore.domain.dto.UserDto;
-import com.crud.webstore.domain.request.RequestOperationNames;
-import com.crud.webstore.domain.respone.*;
+import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.web.request.RequestOperationNames;
+import com.crud.webstore.web.respone.*;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
@@ -20,7 +20,6 @@ public class UserController {
     private UserMapper userMapper;
     @Autowired
     private UserService service;
-    ModelMapper mapper;
 
     //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)

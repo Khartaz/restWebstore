@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.respone;
+package com.crud.webstore.web.respone;
 
 public enum RequestOperationStatus {
     ERROR, SUCCESS
