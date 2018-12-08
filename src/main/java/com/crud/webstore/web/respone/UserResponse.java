@@ -1,12 +1,26 @@
-package com.crud.webstore.domain.respone;
+package com.crud.webstore.web.respone;
+
+import com.crud.webstore.dto.AddressDto;
+
+import java.util.List;
 
 public class UserResponse<T> {
     private String userId;
     private String firstName;
     private String lastName;
     private String email;
+    private List<AddressResponse> addresses;
 
     public UserResponse() {
+    }
+
+
+    public UserResponse(String userId, String firstName, String lastName, String email, List<AddressResponse> addresses) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.addresses = addresses;
     }
 
     public UserResponse(String userId, String firstName,
@@ -53,4 +67,11 @@ public class UserResponse<T> {
         this.email = email;
     }
 
+    public List<AddressResponse> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<AddressResponse> addresses) {
+        this.addresses = addresses;
+    }
 }

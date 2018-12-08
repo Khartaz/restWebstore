@@ -1,7 +1,5 @@
 package com.crud.webstore.domain;
 
-import com.crud.webstore.domain.dto.AddressDto;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;

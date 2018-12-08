@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.respone;
+package com.crud.webstore.web.respone;
 
 public class AddressResponse {
     private String addressId;
@@ -7,6 +7,15 @@ public class AddressResponse {
     private String streetName;
     private String postalCode;
     private String type;
+
+    public AddressResponse(String addressId, String city, String country, String streetName, String postalCode, String type) {
+        this.addressId = addressId;
+        this.city = city;
+        this.country = country;
+        this.streetName = streetName;
+        this.postalCode = postalCode;
+        this.type = type;
+    }
 
     public String getAddressId() {
         return addressId;

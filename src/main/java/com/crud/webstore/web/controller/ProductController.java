@@ -1,6 +1,6 @@
-package com.crud.webstore.controller;
+package com.crud.webstore.web.controller;
 
-import com.crud.webstore.domain.dto.ProductDto;
+import com.crud.webstore.dto.ProductDto;
 import com.crud.webstore.mapper.ProductMapper;
 import com.crud.webstore.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.dto;
+package com.crud.webstore.dto;
 
 import java.util.List;
 
@@ -20,6 +20,16 @@ public class UserDto {
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+    }
+
+    public UserDto(String userId, String firstName, String lastName,
+                   String email, String encryptedPassword, List<AddressDto> addresses) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.encryptedPassword = encryptedPassword;
+        this.addresses = addresses;
     }
 
     public String getUserId() {

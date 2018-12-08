@@ -2,8 +2,10 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.domain.dto.UserDto;
-import com.crud.webstore.domain.respone.ErrorMessages;
+import com.crud.webstore.dto.AddressDto;
+import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.web.respone.AddressResponse;
+import com.crud.webstore.web.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.AddressMapper;
@@ -41,7 +43,7 @@ public class UserService implements UserDetailsService {
     private AddressMapper mapper;
 
 
-    public UserEntity createUser(final UserDto userDto) {
+    public UserEntity createUser(UserDto userDto) {
         findByEmail(userMapper.mapToUserEntity(userDto));
 
         userDto.setUserId(generatePublicId());

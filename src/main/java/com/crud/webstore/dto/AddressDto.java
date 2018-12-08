@@ -1,4 +1,4 @@
-package com.crud.webstore.domain.dto;
+package com.crud.webstore.dto;
 
 public class AddressDto {
     private long id;
@@ -8,14 +8,12 @@ public class AddressDto {
     private String streetName;
     private String postalCode;
     private String type;
-    private UserDto userDto;
 
     public AddressDto() {
     }
 
-    public AddressDto(String city,
-                      String country, String streetName,
-                      String postalCode, String type) {
+    public AddressDto(String addressId, String city, String country, String streetName, String postalCode, String type) {
+        this.addressId = addressId;
         this.city = city;
         this.country = country;
         this.streetName = streetName;
@@ -79,12 +77,5 @@ public class AddressDto {
         this.type = type;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
-    }
-
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
-    }
 }
 
