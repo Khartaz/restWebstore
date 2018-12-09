@@ -30,18 +30,26 @@ public class UserEntity {
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
+    @Column(name = "EMAIL_VERIFICATION_TOKEN")
+    private String emailVerificationToken;
+
+    @Column(name = "EMAIL_VERIFICATION_STATUS")
+    private Boolean emailVerificationStatus = false;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<AddressEntity> addresses = new ArrayList<>();
 
     public UserEntity() {
     }
 
-    public UserEntity(String userId, String firstName, String lastName, String email, String encryptedPassword) {
+    public UserEntity(String userId, String firstName, String lastName,
+                      String email, String encryptedPassword, String emailVerificationToken) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.emailVerificationToken = emailVerificationToken;
     }
 
     public long getId() {
@@ -92,8 +100,24 @@ public class UserEntity {
         this.encryptedPassword = encryptedPassword;
     }
 
+    public String getEmailVerificationToken() {
+        return emailVerificationToken;
+    }
+
+    public void setEmailVerificationToken(String emailVerificationToken) {
+        this.emailVerificationToken = emailVerificationToken;
+    }
+
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getEmailVerificationStatus() {
+        return emailVerificationStatus;
+    }
+
+    public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
+        this.emailVerificationStatus = emailVerificationStatus;
     }
 
     public List<AddressEntity> getAddressEntityList() {

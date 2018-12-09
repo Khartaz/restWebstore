@@ -9,26 +9,30 @@ public class UserDto {
     private String email;
     private String password;
     private String encryptedPassword;
+    private String emailVerificationToken;
+    private boolean emailVerificationStatus;
     private List<AddressDto> addresses;
 
     public UserDto() {
     }
 
-    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword) {
+    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword, String emailVerificationToken) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.emailVerificationToken = emailVerificationToken;
     }
 
     public UserDto(String userId, String firstName, String lastName,
-                   String email, String encryptedPassword, List<AddressDto> addresses) {
+                   String email, String encryptedPassword, String emailVerificationToken, List<AddressDto> addresses) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.emailVerificationToken = emailVerificationToken;
         this.addresses = addresses;
     }
 
@@ -78,6 +82,22 @@ public class UserDto {
 
     public void setEncryptedPassword(String encryptedPassword) {
         this.encryptedPassword = encryptedPassword;
+    }
+
+    public String getEmailVerificationToken() {
+        return emailVerificationToken;
+    }
+
+    public void setEmailVerificationToken(String emailVerificationToken) {
+        this.emailVerificationToken = emailVerificationToken;
+    }
+
+    public boolean isEmailVerificationStatus() {
+        return emailVerificationStatus;
+    }
+
+    public void setEmailVerificationStatus(boolean emailVerificationStatus) {
+        this.emailVerificationStatus = emailVerificationStatus;
     }
 
     public List<AddressDto> getAddresses() {

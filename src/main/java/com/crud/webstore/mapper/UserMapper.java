@@ -27,7 +27,8 @@ public class UserMapper {
                 userDto.getFirstName(),
                 userDto.getLastName(),
                 userDto.getEmail(),
-                userDto.getEncryptedPassword()
+                userDto.getEncryptedPassword(),
+                userDto.getEmailVerificationToken()
         );
     }
 
@@ -45,6 +46,7 @@ public class UserMapper {
                 userEntity.getLastName(),
                 userEntity.getEmail(),
                 userEntity.getEncryptedPassword(),
+                userEntity.getEmailVerificationToken(),
                 userEntity.getAddressEntityList()
                         .stream()
                         .map(v -> addressMapper.mapToAddressDto(v))
@@ -76,7 +78,8 @@ public class UserMapper {
                         u.getFirstName(),
                         u.getLastName(),
                         u.getEmail(),
-                        u.getEncryptedPassword()))
+                        u.getEncryptedPassword(),
+                        u.getEmailVerificationToken()))
                 .collect(Collectors.toList());
     }
 
