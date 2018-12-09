@@ -1,29 +1,33 @@
 package com.crud.webstore.web.controller;
 
-import com.crud.webstore.dto.AddressDto;
+import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.UserDto;
-import com.crud.webstore.mapper.AddressMapper;
+import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.web.request.RequestOperationNames;
 import com.crud.webstore.web.respone.*;
 import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.service.UserService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/v1/users")
 public class UserController {
-    @Autowired
     private UserMapper userMapper;
-    @Autowired
     private UserService service;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserController(UserMapper userMapper, UserService service) {
+        this.userMapper = userMapper;
+        this.service = service;
+    }
 
     //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,6 +72,39 @@ public class UserController {
             @RequestParam(value = "page", defaultValue = "1") int page,
             @RequestParam(value = "limit", defaultValue = "25") int limit) {
         return userMapper.mapToUserListResponse(service.findAll(page, limit));
+    }
+
+    @GetMapping(value = "/email-verification", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus verifyEmailToken(@RequestParam(value = "token") String token) {
+
+        OperationStatus returnValue = new OperationStatus();
+        returnValue.setOperationName(RequestOperationNames.VERIFY_EMAIL.name());
+
+        boolean isVerified = service.verifyEmailToken(token);
+
+        if (isVerified) {
+            returnValue.setOperationResult(RequestOperationStatus.VERIFIED.name());
+        } else {
+            returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+        }
+        return returnValue;
+    }
+
+    //For Tests
+    @GetMapping(value = "/check-email-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus checkEmailStatus(@RequestParam String userId) {
+        service.getUserByUserId(userId);
+        UserEntity userEntity = new UserEntity();
+        OperationStatus result = new OperationStatus();
+        result.setOperationName(RequestOperationNames.CHECK_EMAIL_VERIFICATION_STATUS.name());
+        Boolean isVerified = userEntity.getEmailVerificationStatus();
+
+        if (isVerified) {
+            result.setOperationResult(RequestOperationStatus.VERIFIED.name());
+        } else {
+            result.setOperationResult(RequestOperationStatus.NOT_VERIFIED.name());
+        }
+        return result;
     }
 }
 

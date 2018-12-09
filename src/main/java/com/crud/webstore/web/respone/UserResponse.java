@@ -14,7 +14,6 @@ public class UserResponse<T> {
     public UserResponse() {
     }
 
-
     public UserResponse(String userId, String firstName, String lastName, String email, List<AddressResponse> addresses) {
         this.userId = userId;
         this.firstName = firstName;

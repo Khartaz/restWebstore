@@ -11,10 +11,14 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    @Autowired
     private ProductRepository repository;
-    @Autowired
     private ProductDao productDao;
+
+    @Autowired
+    public ProductServiceImpl(ProductRepository repository, ProductDao productDao) {
+        this.repository = repository;
+        this.productDao = productDao;
+    }
 
     public List<Product> getAllProducts() {
         return repository.findAll();

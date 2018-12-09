@@ -34,12 +34,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                                 HttpServletResponse response) throws AuthenticationException {
 
         try {
-            UserLoginRequest creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequest.class);
+            UserLoginRequest credential = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequest.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            creds.getEmail(),
-                            creds.getPassword(),
+                            credential.getEmail(),
+                            credential.getPassword(),
                             new ArrayList<>())
             );
         } catch (IOException e) {

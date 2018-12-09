@@ -1,5 +1,6 @@
 package com.crud.webstore.service;
 
+import com.crud.webstore.amazon.AmazonSES;
 import com.crud.webstore.domain.AddressEntity;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.AddressDto;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,23 +33,30 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
-    @Autowired
     private UserRepository repository;
-    @Autowired
     private UtilsImpl utils;
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
     private UserMapper userMapper;
-    @Autowired
     private AddressMapper mapper;
 
+    @Autowired
+    public UserService(UserRepository repository, UtilsImpl utils,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       UserMapper userMapper, AddressMapper mapper) {
+        this.repository = repository;
+        this.utils = utils;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userMapper = userMapper;
+        this.mapper = mapper;
+    }
 
     public UserEntity createUser(UserDto userDto) {
         findByEmail(userMapper.mapToUserEntity(userDto));
 
         userDto.setUserId(generatePublicId());
         userDto.setEncryptedPassword(passwordEncoder(userDto.getPassword()));
+        userDto.setEmailVerificationToken(utils.generateEmailVerificationToken(userDto.getUserId()));
+        userDto.setEmailVerificationStatus(false);
 
         List<AddressEntity> list = userDto.getAddresses().stream()
                         .map(v -> mapper.mapToAddressEntity(v))
@@ -55,9 +64,12 @@ public class UserService implements UserDetailsService {
 
         list.forEach(v -> v.setAddressId(generatePublicId()));
 
-        return repository.save(userMapper.mapToUserEntity(userDto, list));
-    }
+        UserEntity result = repository.save(userMapper.mapToUserEntity(userDto, list));
 
+        new AmazonSES().verifyEmail(result);
+
+        return result;
+    }
 
     public UserEntity findByEmail(final UserEntity userEntity) {
         if (repository.findByEmail(userEntity.getEmail()) != null) throw new RuntimeException("Record already exist");
@@ -78,8 +90,11 @@ public class UserService implements UserDetailsService {
 
         if (userEntity == null) throw new UsernameNotFoundException(email);
 
-        return new org.springframework.security.core.userdetails.User
-                (userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
+        //Switch with return below to disable EmailVerificationStatus
+        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), userEntity.getEmailVerificationStatus(),
+        true, true, true, new ArrayList<>());
+
+        //return new org.springframework.security.core.userdetails.User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
     }
 
     public UserDto getUser(final String email) {
@@ -130,5 +145,24 @@ public class UserService implements UserDetailsService {
         List<UserEntity> users = usersPage.getContent();
 
        return userMapper.mapToUserListDto(users);
+    }
+
+    public boolean verifyEmailToken(String token) {
+        boolean returnValue = false;
+
+        //Find userByToken
+        UserEntity userEntity = repository.findUserEntityByEmailVerificationToken(token);
+
+        if (userEntity != null) {
+            boolean hasTokenExpired = UtilsImpl.hasTokenExpired(token);
+            if (!hasTokenExpired) {
+                userEntity.setEmailVerificationToken(null);
+                userEntity.setEmailVerificationStatus(Boolean.TRUE);
+                repository.save(userEntity);
+                returnValue = true;
+            }
+        }
+
+        return returnValue;
     }
 }
