@@ -33,7 +33,7 @@ public class UserEntity {
     @Column(name = "EMAIL_VERIFICATION_TOKEN")
     private String emailVerificationToken;
 
-    @Column(name = "EMAIL_VERIFICATION_STATUS")
+    @Column(name = "EMAIL_VERIFICATION_STATUS_URL")
     private Boolean emailVerificationStatus = false;
 
     @OneToMany(cascade = CascadeType.ALL)

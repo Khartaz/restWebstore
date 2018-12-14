@@ -28,7 +28,7 @@ public class UtilsImpl {
         return generateRandomString(length);
     }
 
-    public static boolean hasTokenExpired(String token) {
+    public boolean hasTokenExpired(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(SecurityConstans.getTokenSecret())
                 .parseClaimsJws(token).getBody();
@@ -40,12 +40,18 @@ public class UtilsImpl {
     }
 
     public String generateEmailVerificationToken(String userId) {
-        String token = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(userId)
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstans.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstans.getTokenSecret())
                 .compact();
+    }
 
-        return token;
+    public String generatePasswordResetToken(String userId) {
+        return Jwts.builder()
+                .setSubject(userId)
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstans.PASSWORD_RESET_EXPIRATION_TIME))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstans.getTokenSecret())
+                .compact();
     }
 }

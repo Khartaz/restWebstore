@@ -3,6 +3,8 @@ package com.crud.webstore.web.controller;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.UserDto;
 import com.crud.webstore.repository.UserRepository;
+import com.crud.webstore.web.request.PasswordReset;
+import com.crud.webstore.web.request.PasswordResetRequest;
 import com.crud.webstore.web.request.RequestOperationNames;
 import com.crud.webstore.web.respone.*;
 import com.crud.webstore.exception.UserServiceException;
@@ -19,9 +21,6 @@ import java.util.List;
 public class UserController {
     private UserMapper userMapper;
     private UserService service;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     public UserController(UserMapper userMapper, UserService service) {
@@ -90,7 +89,7 @@ public class UserController {
         return returnValue;
     }
 
-    //For Tests
+    //Need to be Tested // still to fix
     @GetMapping(value = "/check-email-status", produces = MediaType.APPLICATION_JSON_VALUE)
     public OperationStatus checkEmailStatus(@RequestParam String userId) {
         service.getUserByUserId(userId);
@@ -106,5 +105,42 @@ public class UserController {
         }
         return result;
     }
+
+    @PostMapping(value = "/password-reset-request",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus requestReset(@RequestBody PasswordResetRequest passwordResetRequest) {
+        OperationStatus returnValue = new OperationStatus();
+
+        boolean operationResult = service.requestPasswordReset(passwordResetRequest.getEmail());
+
+        returnValue.setOperationName(RequestOperationNames.REQUEST_PASSWORD_RESET.name());
+        returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+
+        if (operationResult) {
+            returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        }
+
+        return returnValue;
+    }
+
+    @PostMapping(path = "/password-reset", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus resetPassword(@RequestBody PasswordReset passwordReset) {
+        OperationStatus returnValue = new OperationStatus();
+
+        boolean operationResult = service.resetPassword(
+                passwordReset.getToken(),
+                passwordReset.getPassword());
+
+        returnValue.setOperationName(RequestOperationNames.PASSWORD_RESET.name());
+        returnValue.setOperationResult(RequestOperationStatus.ERROR.name());
+
+        if (operationResult) {
+            returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
+        }
+
+        return returnValue;
+    }
+
 }
 

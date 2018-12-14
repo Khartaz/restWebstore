@@ -2,9 +2,11 @@ package com.crud.webstore.service;
 
 import com.crud.webstore.amazon.AmazonSES;
 import com.crud.webstore.domain.AddressEntity;
+import com.crud.webstore.domain.PasswordResetTokenEntity;
 import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.AddressDto;
 import com.crud.webstore.dto.UserDto;
+import com.crud.webstore.repository.PasswordResetTokenRepository;
 import com.crud.webstore.web.respone.AddressResponse;
 import com.crud.webstore.web.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
@@ -38,16 +40,19 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserMapper userMapper;
     private AddressMapper mapper;
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     public UserService(UserRepository repository, UtilsImpl utils,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
-                       UserMapper userMapper, AddressMapper mapper) {
+                       UserMapper userMapper, AddressMapper mapper,
+                       PasswordResetTokenRepository passwordResetTokenRepository) {
         this.repository = repository;
         this.utils = utils;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userMapper = userMapper;
         this.mapper = mapper;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     public UserEntity createUser(UserDto userDto) {
@@ -154,7 +159,7 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = repository.findUserEntityByEmailVerificationToken(token);
 
         if (userEntity != null) {
-            boolean hasTokenExpired = UtilsImpl.hasTokenExpired(token);
+            boolean hasTokenExpired = utils.hasTokenExpired(token);
             if (!hasTokenExpired) {
                 userEntity.setEmailVerificationToken(null);
                 userEntity.setEmailVerificationStatus(Boolean.TRUE);
@@ -165,4 +170,59 @@ public class UserService implements UserDetailsService {
 
         return returnValue;
     }
+
+    public boolean requestPasswordReset(String email) {
+        boolean returnValue = false;
+
+        UserEntity userEntity = repository.findByEmail(email);
+
+        if (userEntity == null) {
+            return returnValue;
+        }
+
+        String token = utils.generatePasswordResetToken(userEntity.getUserId());
+
+        PasswordResetTokenEntity passwordResetTokenEntity = new PasswordResetTokenEntity();
+        passwordResetTokenEntity.setToken(token);
+        passwordResetTokenEntity.setUserEntity(userEntity);
+        passwordResetTokenRepository.save(passwordResetTokenEntity);
+
+
+        returnValue = new AmazonSES().sendPasswordResetRequest(
+                userEntity.getFirstName(),
+                userEntity.getEmail(),
+                token );
+
+        return returnValue;
+    }
+
+    public boolean resetPassword(String token, String password) {
+        boolean returnValue = false;
+
+        if (utils.hasTokenExpired(token)) {
+            return returnValue;
+        }
+
+        PasswordResetTokenEntity passwordResetTokenEntity = passwordResetTokenRepository.findByToken(token);
+
+        if (passwordResetTokenEntity == null) {
+            return returnValue;
+        }
+
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+
+        UserEntity userEntity = passwordResetTokenEntity.getUserEntity();
+        userEntity.setEncryptedPassword(encodedPassword);
+        UserEntity savedUserEntity = repository.save(userEntity);
+
+        if (savedUserEntity != null && savedUserEntity.getEncryptedPassword().equalsIgnoreCase(encodedPassword)) {
+            return true;
+        }
+
+        passwordResetTokenRepository.delete(passwordResetTokenEntity);
+
+        return returnValue;
+    }
+
 }
+
