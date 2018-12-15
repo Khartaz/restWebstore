@@ -1,13 +1,8 @@
 package com.crud.webstore.service;
 
-import com.crud.webstore.amazon.AmazonSES;
 import com.crud.webstore.domain.AddressEntity;
-import com.crud.webstore.domain.PasswordResetTokenEntity;
 import com.crud.webstore.domain.UserEntity;
-import com.crud.webstore.dto.AddressDto;
 import com.crud.webstore.dto.UserDto;
-import com.crud.webstore.repository.PasswordResetTokenRepository;
-import com.crud.webstore.web.respone.AddressResponse;
 import com.crud.webstore.web.respone.ErrorMessages;
 import com.crud.webstore.exception.UserNotFoundException;
 import com.crud.webstore.exception.UserServiceException;
@@ -40,19 +35,16 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserMapper userMapper;
     private AddressMapper mapper;
-    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     public UserService(UserRepository repository, UtilsImpl utils,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
-                       UserMapper userMapper, AddressMapper mapper,
-                       PasswordResetTokenRepository passwordResetTokenRepository) {
+                       UserMapper userMapper, AddressMapper mapper) {
         this.repository = repository;
         this.utils = utils;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.userMapper = userMapper;
         this.mapper = mapper;
-        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     public UserEntity createUser(UserDto userDto) {
@@ -64,14 +56,14 @@ public class UserService implements UserDetailsService {
         userDto.setEmailVerificationStatus(false);
 
         List<AddressEntity> list = userDto.getAddresses().stream()
-                        .map(v -> mapper.mapToAddressEntity(v))
-                        .collect(Collectors.toList());
+                .map(v -> mapper.mapToAddressEntity(v))
+                .collect(Collectors.toList());
 
         list.forEach(v -> v.setAddressId(generatePublicId()));
 
         UserEntity result = repository.save(userMapper.mapToUserEntity(userDto, list));
 
-        new AmazonSES().verifyEmail(result);
+        new AmazonEmailService().sendVerificationEmail(result);
 
         return result;
     }
@@ -97,7 +89,7 @@ public class UserService implements UserDetailsService {
 
         //Switch with return below to disable EmailVerificationStatus
         return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), userEntity.getEmailVerificationStatus(),
-        true, true, true, new ArrayList<>());
+                true, true, true, new ArrayList<>());
 
         //return new org.springframework.security.core.userdetails.User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
     }
@@ -128,7 +120,7 @@ public class UserService implements UserDetailsService {
 
         UserEntity updatedUserDetails = repository.save(userEntity);
 
-       return userMapper.mapToUserDto(updatedUserDetails);
+        return userMapper.mapToUserDto(updatedUserDetails);
     }
 
     public void deleteUser(String userId) {
@@ -149,7 +141,7 @@ public class UserService implements UserDetailsService {
         Page<UserEntity> usersPage = repository.findAll(pageableRequest);
         List<UserEntity> users = usersPage.getContent();
 
-       return userMapper.mapToUserListDto(users);
+        return userMapper.mapToUserListDto(users);
     }
 
     public boolean verifyEmailToken(String token) {
@@ -167,7 +159,6 @@ public class UserService implements UserDetailsService {
                 returnValue = true;
             }
         }
-
         return returnValue;
     }
 
@@ -182,16 +173,12 @@ public class UserService implements UserDetailsService {
 
         String token = utils.generatePasswordResetToken(userEntity.getUserId());
 
-        PasswordResetTokenEntity passwordResetTokenEntity = new PasswordResetTokenEntity();
-        passwordResetTokenEntity.setToken(token);
-        passwordResetTokenEntity.setUserEntity(userEntity);
-        passwordResetTokenRepository.save(passwordResetTokenEntity);
+        userEntity.setPasswordToken(token);
 
-
-        returnValue = new AmazonSES().sendPasswordResetRequest(
+        returnValue = new AmazonEmailService().sendPasswordResetRequest(
                 userEntity.getFirstName(),
                 userEntity.getEmail(),
-                token );
+                token);
 
         return returnValue;
     }
@@ -203,24 +190,19 @@ public class UserService implements UserDetailsService {
             return returnValue;
         }
 
-        PasswordResetTokenEntity passwordResetTokenEntity = passwordResetTokenRepository.findByToken(token);
-
-        if (passwordResetTokenEntity == null) {
+        UserEntity userEntity = repository.findByPasswordToken(token);
+        if (userEntity == null) {
             return returnValue;
         }
-
         String encodedPassword = bCryptPasswordEncoder.encode(password);
 
-        UserEntity userEntity = passwordResetTokenEntity.getUserEntity();
         userEntity.setEncryptedPassword(encodedPassword);
+        userEntity.setPasswordToken(null);
         UserEntity savedUserEntity = repository.save(userEntity);
 
         if (savedUserEntity != null && savedUserEntity.getEncryptedPassword().equalsIgnoreCase(encodedPassword)) {
             return true;
         }
-
-        passwordResetTokenRepository.delete(passwordResetTokenEntity);
-
         return returnValue;
     }
 

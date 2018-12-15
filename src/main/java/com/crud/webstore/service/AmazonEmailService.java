@@ -1,4 +1,4 @@
-package com.crud.webstore.amazon;
+package com.crud.webstore.service;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
@@ -6,10 +6,9 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
 import com.crud.webstore.domain.UserEntity;
 import org.springframework.stereotype.Service;
-//Refactor it to Email Service and add JavaMailSender
-@Service
-public class AmazonSES {
 
+@Service
+public class AmazonEmailService implements EmailService {
     // This address must be verified with Amazon SES.
     final String FROM = "apitesting88@gmail.com";
 
@@ -17,7 +16,6 @@ public class AmazonSES {
     final String SUBJECT = "One last step to complete your registration with PhotoApp";
 
     final String PASSWORD_RESET_SUBJECT = "Password reset request";
-
     // The HTML body for the email.
     final String HTMLBODY = "<h1>Please verify your email address</h1>"
             + "<p>Thank you for registering with our mobile app. To complete registration process and be able to log in,"
@@ -53,18 +51,16 @@ public class AmazonSES {
             + " http://localhost:8080/verification-service/password-reset.html?token=$tokenValue"
             + " Thank you!";
 
-
-    public void verifyEmail(UserEntity entity) {
-
-
+    @Override
+    public void sendVerificationEmail(UserEntity userEntity) {
         AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard().withRegion(Regions.EU_WEST_1)
                 .build();
 
-        String htmlBodyWithToken = HTMLBODY.replace("$tokenValue", entity.getEmailVerificationToken());
-        String textBodyWithToken = TEXTBODY.replace("$tokenValue", entity.getEmailVerificationToken());
+        String htmlBodyWithToken = HTMLBODY.replace("$tokenValue", userEntity.getEmailVerificationToken());
+        String textBodyWithToken = TEXTBODY.replace("$tokenValue", userEntity.getEmailVerificationToken());
 
         SendEmailRequest request = new SendEmailRequest()
-                .withDestination(new Destination().withToAddresses(entity.getEmail()))
+                .withDestination(new Destination().withToAddresses(userEntity.getEmail()))
                 .withMessage(new Message()
                         .withBody(new Body().withHtml(new Content().withCharset("UTF-8").withData(htmlBodyWithToken))
                                 .withText(new Content().withCharset("UTF-8").withData(textBodyWithToken)))
@@ -76,30 +72,30 @@ public class AmazonSES {
         System.out.println("Email sent!");
     }
 
+    @Override
     public boolean sendPasswordResetRequest(String firstName, String email, String token) {
-
         boolean returnValue = true;
 
         AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.standard()
                 .withRegion(Regions.EU_WEST_1).build();
 
         String htmlBodyWithToken = PASSWORD_RESET_HTMLBODY.replace("$tokenValue", token);
-               htmlBodyWithToken = htmlBodyWithToken.replace("$firstName", firstName);
+        htmlBodyWithToken = htmlBodyWithToken.replace("$firstName", firstName);
 
         String textBodyWithToken = PASSWORD_RESET_TEXTBODY.replace("$tokenValue", token);
-               textBodyWithToken = textBodyWithToken.replace("$firstName", firstName);
+        textBodyWithToken = textBodyWithToken.replace("$firstName", firstName);
 
         SendEmailRequest request = new SendEmailRequest()
                 .withDestination(
                         new Destination().withToAddresses(email))
                 .withMessage(new Message()
-                    .withBody(new Body()
-                        .withHtml(new Content()
-                        .withCharset("UTF-8").withData(htmlBodyWithToken))
-                    .withText(new Content()
-                        .withCharset("UTF-8").withData(textBodyWithToken)))
-                .withSubject(new Content()
-                    .withCharset("UTF-8").withData(PASSWORD_RESET_SUBJECT)))
+                        .withBody(new Body()
+                                .withHtml(new Content()
+                                        .withCharset("UTF-8").withData(htmlBodyWithToken))
+                                .withText(new Content()
+                                        .withCharset("UTF-8").withData(textBodyWithToken)))
+                        .withSubject(new Content()
+                                .withCharset("UTF-8").withData(PASSWORD_RESET_SUBJECT)))
                 .withSource(FROM);
 
         SendEmailResult result = client.sendEmail(request);
@@ -109,6 +105,4 @@ public class AmazonSES {
 
         return returnValue;
     }
-
-
 }

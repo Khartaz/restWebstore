@@ -27,6 +27,9 @@ public class UserEntity {
 
     private String password;
 
+    @Column(name = "PASSWORD_RESET_TOKEN")
+    private String passwordToken;
+
     @Column(name = "ENCRYPTED_PASSWORD")
     private String encryptedPassword;
 
@@ -110,6 +113,14 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPasswordToken() {
+        return passwordToken;
+    }
+
+    public void setPasswordToken(String passwordToken) {
+        this.passwordToken = passwordToken;
     }
 
     public Boolean getEmailVerificationStatus() {
