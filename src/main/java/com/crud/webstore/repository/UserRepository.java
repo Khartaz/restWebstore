@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
     @Override
-    UserEntity save(final UserEntity userEntity);
+    UserEntity save(UserEntity userEntity);
 
     UserEntity findByEmail(String email);
 
@@ -20,7 +20,8 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     UserEntity findUserEntityByEmailVerificationToken(String token);
 
-    //Boolean findUserEntityByEmailVerificationStatus(Boolean status);
+    UserEntity findByPasswordToken(String token);
+
 
 
     //List<UserDto> findAll(int page, int limit);

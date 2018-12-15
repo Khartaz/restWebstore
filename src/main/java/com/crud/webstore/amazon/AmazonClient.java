@@ -28,5 +28,4 @@ public class AmazonClient {
             .withRegion(Regions.EU_WEST_1)
                 .withCredentials(new AWSStaticCredentialsProvider(credentials)).build();
     }
-
 }
