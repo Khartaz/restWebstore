@@ -15,7 +15,6 @@ public interface ProductDao extends CrudRepository<Product, Long> {
     @Query
     List<Product> findByName(@Param("NAME") String name);
 
-
     List<Product> findByCategory(String category);
 
     List<Product> findByManufacturer(String manufacturer);
