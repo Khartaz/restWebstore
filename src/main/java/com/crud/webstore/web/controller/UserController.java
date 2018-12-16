@@ -1,8 +1,6 @@
 package com.crud.webstore.web.controller;
 
-import com.crud.webstore.domain.UserEntity;
 import com.crud.webstore.dto.UserDto;
-import com.crud.webstore.repository.UserRepository;
 import com.crud.webstore.web.request.PasswordReset;
 import com.crud.webstore.web.request.PasswordResetRequest;
 import com.crud.webstore.web.request.RequestOperationNames;
@@ -32,14 +30,15 @@ public class UserController {
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserResponse getUser(@RequestParam String id) {
         return userMapper.mapToUserResponse(
-                 userMapper.mapToUserDto(service.getUserByUserId(id)));
+                userMapper.mapToUserDto(service.getUserByUserId(id)));
     }
 
     @PostMapping(value = "createUser",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
-            )
-    public @ResponseBody UserResponse createUser(@RequestBody UserDto userDto) {
+    )
+    public @ResponseBody
+    UserResponse createUser(@RequestBody UserDto userDto) {
         if (userDto.getFirstName().isEmpty())
             throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 
@@ -49,7 +48,7 @@ public class UserController {
     @PutMapping(value = "updateUserDetails",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
-            )
+    )
     public UserResponse updateUser(@RequestBody UserDto userDto, @RequestParam String id) throws Exception {
         return userMapper.mapToUserResponse(service.updateUserDetails(id, userDto));
     }
@@ -59,7 +58,6 @@ public class UserController {
         OperationStatus result = new OperationStatus();
 
         result.setOperationName(RequestOperationNames.DELETE.name());
-
         service.deleteUser(id);
 
         result.setOperationResult(RequestOperationStatus.SUCCESS.name());
@@ -89,14 +87,14 @@ public class UserController {
         return returnValue;
     }
 
-    @GetMapping(value = "/check-email-status", produces = MediaType.APPLICATION_JSON_VALUE)
-    public OperationStatus checkEmailStatus(@RequestParam String userId) {
-        UserEntity userEntity = service.getUserByUserId(userId);
+    @GetMapping(value = "/email-verification-status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OperationStatus emailVerificationStatus(@RequestParam String userId) {
+        boolean isVerified = service.emailVerificationStatus(userId);
+
         OperationStatus result = new OperationStatus();
         result.setOperationName(RequestOperationNames.CHECK_EMAIL_VERIFICATION_STATUS.name());
-        Boolean isVerified = userEntity.getEmailVerificationStatus();
 
-        if (isVerified)  {
+        if (isVerified) {
             result.setOperationResult(RequestOperationStatus.VERIFIED.name());
         } else {
             result.setOperationResult(RequestOperationStatus.NOT_VERIFIED.name());
@@ -118,7 +116,6 @@ public class UserController {
         if (operationResult) {
             returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
         }
-
         return returnValue;
     }
 

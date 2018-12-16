@@ -10,7 +10,7 @@ public class SecurityConstans {
     public static final String USER_ID = "userId";
     public static final String SIGN_UP_URL = "/v1/users/createUser";
     public static final String VERIFICATION_EMAIL_URL = "/v1/users/email-verification";
-    public static final String EMAIL_VERIFICATION_STATUS_URL = "/v1/users/check-email-status";
+    public static final String EMAIL_VERIFICATION_STATUS_URL = "/v1/users/email-verification-status";
     public static final String PASSWORD_RESET_REQUEST_URL = "/v1/users/password-reset-request";
     public static final String PASSWORD_RESET_URL = "/v1/users/password-reset";
     public static final String[] SWAGGER = {

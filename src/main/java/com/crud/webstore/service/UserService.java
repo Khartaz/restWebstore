@@ -158,6 +158,15 @@ public class UserService implements UserDetailsService {
         return returnValue;
     }
 
+    public boolean emailVerificationStatus(String userId) {
+        UserEntity userEntity = getUserByUserId(userId);
+
+        if (userEntity == null) {
+            throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
+        }
+        return userEntity.getEmailVerificationStatus();
+    }
+
     public boolean requestPasswordReset(String email) {
         boolean returnValue = false;
 
