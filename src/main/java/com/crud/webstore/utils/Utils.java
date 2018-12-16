@@ -1,4 +1,4 @@
-package com.crud.webstore.service.impl;
+package com.crud.webstore.utils;
 
 import com.crud.webstore.security.SecurityConstans;
 import io.jsonwebtoken.Claims;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Random;
 
 @Component
-public class UtilsImpl {
+public class Utils {
     private final Random RANDOM = new SecureRandom();
     private final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

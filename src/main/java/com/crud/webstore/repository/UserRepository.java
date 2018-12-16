@@ -14,15 +14,13 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     UserEntity findByEmail(String email);
 
-    UserEntity findByUserId(String id);
+    UserEntity findByUserId(String userId);
 
     void deleteByUserId(String userId);
 
     UserEntity findUserEntityByEmailVerificationToken(String token);
 
     UserEntity findByPasswordToken(String token);
-
-
 
     //List<UserDto> findAll(int page, int limit);
 

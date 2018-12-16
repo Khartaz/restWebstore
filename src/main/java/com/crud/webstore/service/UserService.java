@@ -9,7 +9,7 @@ import com.crud.webstore.exception.UserServiceException;
 import com.crud.webstore.mapper.AddressMapper;
 import com.crud.webstore.mapper.UserMapper;
 import com.crud.webstore.repository.UserRepository;
-import com.crud.webstore.service.impl.UtilsImpl;
+import com.crud.webstore.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,13 +31,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class UserService implements UserDetailsService {
     private UserRepository repository;
-    private UtilsImpl utils;
+    private Utils utils;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private UserMapper userMapper;
     private AddressMapper mapper;
 
     @Autowired
-    public UserService(UserRepository repository, UtilsImpl utils,
+    public UserService(UserRepository repository, Utils utils,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        UserMapper userMapper, AddressMapper mapper) {
         this.repository = repository;
@@ -68,7 +68,7 @@ public class UserService implements UserDetailsService {
         return result;
     }
 
-    public UserEntity findByEmail(final UserEntity userEntity) {
+    public UserEntity findByEmail(UserEntity userEntity) {
         if (repository.findByEmail(userEntity.getEmail()) != null) throw new RuntimeException("Record already exist");
         return userEntity;
     }
@@ -87,20 +87,17 @@ public class UserService implements UserDetailsService {
 
         if (userEntity == null) throw new UsernameNotFoundException(email);
 
-        //Switch with return below to disable EmailVerificationStatus
         return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(), userEntity.getEmailVerificationStatus(),
                 true, true, true, new ArrayList<>());
-
-        //return new org.springframework.security.core.userdetails.User(userEntity.getEmail(), userEntity.getEncryptedPassword(), new ArrayList<>());
     }
 
-    public UserDto getUser(final String email) {
+    public UserDto getUser(String email) {
 
         return userMapper.mapToUserDto(repository.findByEmail(email));
     }
 
-    public UserEntity getUserByUserId(String id) {
-        UserEntity userEntity = repository.findByUserId(id);
+    public UserEntity getUserByUserId(String userId) {
+        UserEntity userEntity = repository.findByUserId(userId);
 
         if (userEntity == null) {
             throw new UserServiceException(ErrorMessages.NO_RECORD_FOUND.getErrorMessage());
@@ -108,8 +105,8 @@ public class UserService implements UserDetailsService {
         return userEntity;
     }
 
-    public UserDto updateUserDetails(String id, UserDto userDto) throws Exception {
-        UserEntity userEntity = repository.findByUserId(id);
+    public UserDto updateUserDetails(String userId, UserDto userDto) throws Exception {
+        UserEntity userEntity = repository.findByUserId(userId);
 
         if (userEntity == null) {
             throw new UserNotFoundException();
@@ -118,9 +115,9 @@ public class UserService implements UserDetailsService {
         userEntity.setFirstName(userDto.getFirstName());
         userEntity.setLastName(userDto.getLastName());
 
-        UserEntity updatedUserDetails = repository.save(userEntity);
+        UserEntity result = repository.save(userEntity);
 
-        return userMapper.mapToUserDto(updatedUserDetails);
+        return userMapper.mapToUserDto(result);
     }
 
     public void deleteUser(String userId) {
@@ -147,7 +144,6 @@ public class UserService implements UserDetailsService {
     public boolean verifyEmailToken(String token) {
         boolean returnValue = false;
 
-        //Find userByToken
         UserEntity userEntity = repository.findUserEntityByEmailVerificationToken(token);
 
         if (userEntity != null) {

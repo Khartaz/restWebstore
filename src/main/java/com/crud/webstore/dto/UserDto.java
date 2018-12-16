@@ -16,23 +16,26 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword, String emailVerificationToken) {
+    public UserDto(String userId, String firstName, String lastName, String email,
+                   String encryptedPassword, String emailVerificationToken, boolean emailVerificationStatus) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.emailVerificationToken = emailVerificationToken;
+        this.emailVerificationStatus = emailVerificationStatus;
     }
 
-    public UserDto(String userId, String firstName, String lastName,
-                   String email, String encryptedPassword, String emailVerificationToken, List<AddressDto> addresses) {
+    public UserDto(String userId, String firstName, String lastName, String email, String encryptedPassword,
+                   String emailVerificationToken, boolean emailVerificationStatus , List<AddressDto> addresses) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.emailVerificationToken = emailVerificationToken;
+        this.emailVerificationStatus = emailVerificationStatus;
         this.addresses = addresses;
     }
 

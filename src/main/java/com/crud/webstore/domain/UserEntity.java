@@ -46,13 +46,14 @@ public class UserEntity {
     }
 
     public UserEntity(String userId, String firstName, String lastName,
-                      String email, String encryptedPassword, String emailVerificationToken) {
+                      String email, String encryptedPassword, String emailVerificationToken, boolean emailVerificationStatus) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.emailVerificationToken = emailVerificationToken;
+        this.emailVerificationStatus = emailVerificationStatus;
     }
 
     public long getId() {

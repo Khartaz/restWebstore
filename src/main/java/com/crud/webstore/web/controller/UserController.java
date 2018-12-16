@@ -92,13 +92,12 @@ public class UserController {
     //Need to be Tested // still to fix
     @GetMapping(value = "/check-email-status", produces = MediaType.APPLICATION_JSON_VALUE)
     public OperationStatus checkEmailStatus(@RequestParam String userId) {
-        service.getUserByUserId(userId);
-        UserEntity userEntity = new UserEntity();
+        UserEntity userEntity = service.getUserByUserId(userId);
         OperationStatus result = new OperationStatus();
         result.setOperationName(RequestOperationNames.CHECK_EMAIL_VERIFICATION_STATUS.name());
         Boolean isVerified = userEntity.getEmailVerificationStatus();
 
-        if (isVerified) {
+        if (isVerified)  {
             result.setOperationResult(RequestOperationStatus.VERIFIED.name());
         } else {
             result.setOperationResult(RequestOperationStatus.NOT_VERIFIED.name());
