@@ -89,7 +89,6 @@ public class UserController {
         return returnValue;
     }
 
-    //Need to be Tested // still to fix
     @GetMapping(value = "/check-email-status", produces = MediaType.APPLICATION_JSON_VALUE)
     public OperationStatus checkEmailStatus(@RequestParam String userId) {
         UserEntity userEntity = service.getUserByUserId(userId);
