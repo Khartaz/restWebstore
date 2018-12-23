@@ -171,11 +171,9 @@ public class UserService implements UserDetailsService {
         boolean returnValue = false;
 
         UserEntity userEntity = repository.findByEmail(email);
-
         if (userEntity == null) {
             return returnValue;
         }
-
         String token = utils.generatePasswordResetToken(userEntity.getUserId());
 
         userEntity.setPasswordToken(token);

@@ -1,6 +1,5 @@
 package com.crud.webstore.security;
 
-import com.crud.webstore.service.ProductService;
 import com.crud.webstore.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,18 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
-    private final ProductService productService;
 
 
-    public WebSecurity(UserService userService, ProductService productService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
-        this.productService = productService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public AuthenticationFilter getAuthenticationFilter() throws Exception {
         final AuthenticationFilter filter = new AuthenticationFilter(authenticationManager());
-        filter.setFilterProcessesUrl("/v1/login");
+        filter.setFilterProcessesUrl(SecurityConstans.LOGIN_URL);
         return filter;
     }
 
@@ -38,16 +35,17 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                         SecurityConstans.PASSWORD_RESET_URL)
                 .permitAll()
                 .antMatchers(HttpMethod.GET,
+                       // SecurityConstans.PRODUCT_BY_ID,
+                       // SecurityConstans.PRODUCTS_ALL,
                         SecurityConstans.VERIFICATION_EMAIL_URL,
                         SecurityConstans.EMAIL_VERIFICATION_STATUS_URL)
                 .permitAll()
                 .antMatchers(SecurityConstans.SWAGGER)
                 .permitAll()
-                //.antMatchers(HttpMethod.DELETE)
-                //.permitAll()
-
-                //.antMatchers(HttpMethod.PUT)
-                //.permitAll()
+                .antMatchers(HttpMethod.DELETE)
+                .permitAll()
+                .antMatchers(HttpMethod.PUT)
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(getAuthenticationFilter())
@@ -60,5 +58,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder authentication) throws Exception {
         authentication.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
-
 }

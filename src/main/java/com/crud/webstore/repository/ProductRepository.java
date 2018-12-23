@@ -1,30 +1,34 @@
 package com.crud.webstore.repository;
 
 import com.crud.webstore.domain.Product;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
-public interface ProductRepository extends CrudRepository<Product, Long> {
-    @Override
-    List<Product> findAll();
-
-    @Override
-    Product findOne(Long productId);
-
-    @Override
-    void delete(Long id);
+@Repository
+@Transactional
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Override
     Product save(Product product);
 
-    /*
-    Product getProductById(String productId);
-    List<Product> getProductsByCategory(String category);
-    Set<Product> getProductsByFilter(Map<String, List<String>> filterParams);
-    List<Product> getProductsByManufacturer(String manufacturer);
-    void addProduct(Product product);
+    @Query
+    List<Product> findByName(@Param("NAME") String name);
 
-    JpaRepository<Product, Long>
-    */
+    List<Product> getByManufacturer(String manufacturer);
+
+    List<Product> getByManufacturerAndCategory(String manufacturer, String category);
+
+    Product getProductByProductId(Long productId);
+
+    void deleteByProductId(Long productId);
+
+    List<Product> getByName(String name);
+
+    List<Product> getByCategory(String category);
+
 }

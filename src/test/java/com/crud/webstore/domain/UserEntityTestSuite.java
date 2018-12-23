@@ -22,7 +22,7 @@ public class UserEntityTestSuite {
     @Test
     public void testUserEntitySave() {
         //Given
-        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1", "test");
+        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1", "test", true);
         //When
         userRepository.save(user1);
         //Then
@@ -30,14 +30,15 @@ public class UserEntityTestSuite {
         UserEntity userEntity1 = userRepository.findOne(id);
         Assert.assertEquals(id, userEntity1.getId());
         //CleanUp
-        userRepository.delete(id);
+        userRepository.delete(userEntity1);
     }
 
     @Test
     public void testUserEntitySaveWithAddresses() {
         //Given
-        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1", "test");
-        UserEntity user2 = new UserEntity("test2", "test2", "test2", "test2", "test2", "test");
+        UserEntity user1 = new UserEntity("test1", "test1", "test1", "test1", "test1", "test", true
+        );
+        UserEntity user2 = new UserEntity("test2", "test2", "test2", "test2", "test2", "test", true);
 
         AddressEntity address1 = new AddressEntity("test1", "test1", "test1", "test1", "test1");
         AddressEntity address2 = new AddressEntity("test2", "test2", "test2", "test2", "test2");
@@ -52,7 +53,7 @@ public class UserEntityTestSuite {
         Assert.assertNotEquals(0, id1);
         Assert.assertNotEquals(0, id2);
         //Clean up
-        userRepository.delete(id1);
-        userRepository.delete(id2);
+        userRepository.delete(user1);
+        userRepository.delete(user2);
     }
 }

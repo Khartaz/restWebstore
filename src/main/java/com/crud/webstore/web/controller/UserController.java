@@ -133,7 +133,6 @@ public class UserController {
         if (operationResult) {
             returnValue.setOperationResult(RequestOperationStatus.SUCCESS.name());
         }
-
         return returnValue;
     }
 
