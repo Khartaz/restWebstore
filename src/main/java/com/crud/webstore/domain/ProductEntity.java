@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity(name = "PRODUCTS")
-public class Product {
+public class ProductEntity {
     private Long productId;
     private String name;
     private BigDecimal unitPrice;
@@ -15,12 +15,12 @@ public class Product {
     private long unitsInOrder;
     private boolean discontinued;
 
-    public Product() {
+    public ProductEntity() {
     }
 
-    public Product(Long productId, String name,
-                   BigDecimal unitPrice, String description,
-                   String manufacturer, String category, long unitsInStock) {
+    public ProductEntity(Long productId, String name,
+                         BigDecimal unitPrice, String description,
+                         String manufacturer, String category, long unitsInStock) {
         this.productId = productId;
         this.name = name;
         this.unitPrice = unitPrice;

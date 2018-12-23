@@ -1,6 +1,6 @@
 package com.crud.webstore.mapper;
 
-import com.crud.webstore.domain.Product;
+import com.crud.webstore.domain.ProductEntity;
 import com.crud.webstore.dto.ProductDto;
 import org.springframework.stereotype.Component;
 
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 @Component
 public class ProductMapper {
-    public Product mapToProduct(final ProductDto productDto) {
-        return new Product(
+    public ProductEntity mapToProduct(final ProductDto productDto) {
+        return new ProductEntity(
                 productDto.getProductId(),
                 productDto.getName(),
                 productDto.getUnitPrice(),
@@ -21,20 +21,20 @@ public class ProductMapper {
         );
     }
 
-    public ProductDto mapToProductDto(final Product product) {
+    public ProductDto mapToProductDto(final ProductEntity productEntity) {
         return new ProductDto(
-                product.getProductId(),
-                product.getName(),
-                product.getUnitPrice(),
-                product.getDescription(),
-                product.getManufacturer(),
-                product.getCategory(),
-                product.getUnitsInStock()
+                productEntity.getProductId(),
+                productEntity.getName(),
+                productEntity.getUnitPrice(),
+                productEntity.getDescription(),
+                productEntity.getManufacturer(),
+                productEntity.getCategory(),
+                productEntity.getUnitsInStock()
         );
     }
 
-    public List<ProductDto> mapToProductDtoList(final List<Product> productList) {
-        return productList.stream()
+    public List<ProductDto> mapToProductDtoList(final List<ProductEntity> productEntityList) {
+        return productEntityList.stream()
                 .map(p -> new ProductDto(
                         p.getProductId(),
                         p.getName(),
@@ -46,9 +46,9 @@ public class ProductMapper {
                 .collect(Collectors.toList());
     }
 
-    public List<Product> mapToProductList(final List<ProductDto> productDtoList) {
+    public List<ProductEntity> mapToProductList(final List<ProductDto> productDtoList) {
         return productDtoList.stream()
-                .map(p -> new Product(
+                .map(p -> new ProductEntity(
                         p.getProductId(),
                         p.getName(),
                         p.getUnitPrice(),

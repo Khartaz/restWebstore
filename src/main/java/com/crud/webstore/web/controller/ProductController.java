@@ -14,10 +14,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(value = "/v1/product")
 public class ProductController {
-    @Autowired
     private ProductRepository repository;
-    @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    public ProductController(ProductRepository repository, ProductMapper productMapper) {
+        this.repository = repository;
+        this.productMapper = productMapper;
+    }
 
     @GetMapping(value = "getProducts")
     public List<ProductDto> getProducts() {

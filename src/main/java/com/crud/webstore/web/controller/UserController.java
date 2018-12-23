@@ -26,9 +26,8 @@ public class UserController {
         this.service = service;
     }
 
-    //Change to PathVariable?
     @GetMapping(value = "id", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserResponse getUser(@RequestParam String id) {
+    public UserResponse getUserById(@RequestParam String id) {
         return userMapper.mapToUserResponse(
                 userMapper.mapToUserDto(service.getUserByUserId(id)));
     }

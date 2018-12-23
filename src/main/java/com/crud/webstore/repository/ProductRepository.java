@@ -1,6 +1,6 @@
 package com.crud.webstore.repository;
 
-import com.crud.webstore.domain.Product;
+import com.crud.webstore.domain.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,24 +11,24 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Override
-    Product save(Product product);
+    ProductEntity save(ProductEntity productEntity);
 
     @Query
-    List<Product> findByName(@Param("NAME") String name);
+    List<ProductEntity> findByName(@Param("NAME") String name);
 
-    List<Product> getByManufacturer(String manufacturer);
+    List<ProductEntity> getByManufacturer(String manufacturer);
 
-    List<Product> getByManufacturerAndCategory(String manufacturer, String category);
+    List<ProductEntity> getByManufacturerAndCategory(String manufacturer, String category);
 
-    Product getProductByProductId(Long productId);
+    ProductEntity getProductByProductId(Long productId);
 
     void deleteByProductId(Long productId);
 
-    List<Product> getByName(String name);
+    List<ProductEntity> getByName(String name);
 
-    List<Product> getByCategory(String category);
+    List<ProductEntity> getByCategory(String category);
 
 }
